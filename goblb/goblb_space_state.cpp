@@ -4,7 +4,7 @@
 
 namespace goblb {
 
-const char* SpaceState::toString(const SpaceState::Value& state)
+const char* SpaceState::toString(Value state)
 {
     switch(state)
     {
@@ -17,8 +17,7 @@ const char* SpaceState::toString(const SpaceState::Value& state)
     }
 }
 
-
-std::ostream& operator<<(std::ostream& stream, const SpaceState::Value& state)
+std::ostream& operator<<(std::ostream& stream, SpaceState::Value state)
 {
     stream << SpaceState::toString(state);
     return stream;

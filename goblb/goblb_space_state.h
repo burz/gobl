@@ -19,11 +19,11 @@ class SpaceState
 
   public:
     // CLASS METHODS
-    static const char* toString(const SpaceState::Value& state);
+    static const char* toString(Value state);
 };
 
 // FREE OPERATORS
-std::ostream& operator<<(std::ostream& stream, const SpaceState::Value& state);
+std::ostream& operator<<(std::ostream& stream, SpaceState::Value state);
 
 } // Close goblb
 

@@ -1,17 +1,15 @@
-CC = clang++ --std=c++11
+CC     = clang++ --std=c++11
 CFLAGS = -c -g -Wall -Werror
 
-GTEST_DIR = $(shell echo $$GTEST_DIR)
+GTEST_DIR  = $(shell echo $$GTEST_DIR)
 GTEST_INCL = -isystem $(GTEST_DIR)/include
-GTEST_LIBS = -pthread -L$(GTEST_DIR) -lgtest
-GTEST_LD = $(GTEST_INCL) $(GTEST_LIBS)
-
-INCL = \
--Igoblb \
+GTEST_LD   = -pthread -L$(GTEST_DIR) -lgtest
 
 SRCDIRS = \
 . \
 goblb \
+
+INCL = $(SRCDIRS:%=-I%)
 
 LIBS = \
 
@@ -38,7 +36,7 @@ gobl_gtest: $(TEST_OBJS)
 clean:
 	rm -f $(SRCDIRS:%=%/*.o)
 
-%.t.o: %.cpp
+%.t.o: %.t.cpp
 	$(CC) $(CFLAGS) -o $*.t.o $^ $(FLAGS) $(GTEST_INCL)
 
 %.o: %.cpp
