@@ -25,7 +25,6 @@ OBJS=$(SRCS:%.cpp=%.o)
 NOTEST_OBJS=$(filter-out %.t.o,$(OBJS))
 TEST_OBJS=$(filter-out %.m.o,$(OBJS))
 
-.PHONY: all
 all: gobl.tsk gobl_gtest.tsk
 
 gobl.tsk: $(NOTEST_OBJS)
@@ -33,6 +32,10 @@ gobl.tsk: $(NOTEST_OBJS)
 
 gobl_gtest.tsk: $(TEST_OBJS)
 	$(CC) -o $@ $^ $(LDFLAGS) $(GTEST_LD)
+
+.PHONY: test
+test:
+	./gobl_gtest.tsk
 
 .PHONY: clean
 clean:

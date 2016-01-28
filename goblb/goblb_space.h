@@ -26,9 +26,30 @@ class Space
     Space(SpaceState::Value state);
 
   public:
+    // MANIPULATORS
+    void setState(SpaceState::Value value);
+
+  public:
     // ACCESSORS
     SpaceState::Value state() const;
+
+    void print(std::ostream& stream) const;
+
+  public:
+    // OPERATORS
+    bool operator==(const Space& space);
+    bool operator!=(const Space& space);
 };
+
+// FREE OPERATORS
+std::ostream& operator<<(std::ostream& stream, const Space& space);
+
+// INLINES
+inline
+void Space::setState(SpaceState::Value value)
+{
+    d_state = value;
+}
 
 inline
 SpaceState::Value Space::state() const
@@ -36,6 +57,17 @@ SpaceState::Value Space::state() const
     return d_state;
 }
 
+inline
+bool Space::operator==(const Space& space)
+{
+    return d_state == space.d_state;
+}
+
+inline
+bool Space::operator!=(const Space& space)
+{
+    return d_state != space.d_state;
+}
 
 } // Close goblb
 

@@ -14,4 +14,16 @@ Space::Space(SpaceState::Value state)
 {
 }
 
+void Space::print(std::ostream& stream) const
+{
+    stream << d_state;
+}
+
+std::ostream& operator<<(std::ostream& stream, const Space& space)
+{
+    space.print(stream);
+
+    return stream;
+}
+
 } // Close goblb
