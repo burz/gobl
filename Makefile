@@ -8,6 +8,7 @@ GTEST_LD   = -pthread -L$(GTEST_DIR) -lgtest
 SRCDIRS = \
 . \
 goblb \
+goblr \
 
 INCL = $(SRCDIRS:%=-I%)
 

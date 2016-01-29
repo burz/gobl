@@ -5,11 +5,11 @@
 namespace goblb {
 
 Board::Board()
-: d_spaces(BOARD_SIZE, std::vector<Space::Ptr>(BOARD_SIZE))
+: d_spaces(SIZE, std::vector<Space::Ptr>(SIZE))
 {
-    for(unsigned int i = 0; i < BOARD_SIZE; ++i)
+    for(unsigned int i = 0; i < SIZE; ++i)
     {
-        for(unsigned int j = 0; j < BOARD_SIZE; ++j)
+        for(unsigned int j = 0; j < SIZE; ++j)
         {
             d_spaces[i][j].reset(new Space());
         }
@@ -18,13 +18,13 @@ Board::Board()
 
 void Board::print(std::ostream& stream) const
 {
-    for(unsigned int i = 1; i <= BOARD_SIZE; i++)
+    for(unsigned int i = 1; i <= SIZE; i++)
     {
-        const unsigned int k = BOARD_SIZE - i;
+        const unsigned int k = SIZE - i;
 
         stream << "[ " << *d_spaces[k][0];
 
-        for(unsigned int j = 1; j < BOARD_SIZE; ++j)
+        for(unsigned int j = 1; j < SIZE; ++j)
         {
             stream << ", " << *d_spaces[k][j];
         }
@@ -35,9 +35,9 @@ void Board::print(std::ostream& stream) const
 
 bool Board::operator==(const Board& board)
 {
-    for(unsigned int i = 0; i < BOARD_SIZE; ++i)
+    for(unsigned int i = 0; i < SIZE; ++i)
     {
-        for(unsigned int j = 0; j < BOARD_SIZE; ++j)
+        for(unsigned int j = 0; j < SIZE; ++j)
         {
             if(*d_spaces[i][j] != *board.d_spaces[i][j])
             {

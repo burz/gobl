@@ -12,9 +12,9 @@ TEST(Board, constructor)
 {
     Board board;
 
-    for(unsigned int i = 0; i < Board::BOARD_SIZE; ++i)
+    for(unsigned int i = 0; i < Board::SIZE; ++i)
     {
-        for(unsigned int j = 0; j < Board::BOARD_SIZE; ++j)
+        for(unsigned int j = 0; j < Board::SIZE; ++j)
         {
             ASSERT_TRUE(static_cast<bool>(board.space(i, j)));
             EXPECT_EQ(SpaceState::EMPTY, board.space(i, j)->state());
@@ -26,9 +26,9 @@ TEST(Board, setState)
 {
     Board board;
 
-    for(unsigned int i = 0; i < Board::BOARD_SIZE; ++i)
+    for(unsigned int i = 0; i < Board::SIZE; ++i)
     {
-        for(unsigned int j = 0; j < Board::BOARD_SIZE; ++j)
+        for(unsigned int j = 0; j < Board::SIZE; ++j)
         {
             board.setState(i, j, SpaceState::BLACK);
             EXPECT_EQ(SpaceState::BLACK, board.state(i, j));
@@ -44,7 +44,7 @@ TEST(Board, print)
 {
     std::ostringstream lineStream;
     lineStream << "[ EMPTY";
-    for(unsigned int i = 1; i < Board::BOARD_SIZE; ++i)
+    for(unsigned int i = 1; i < Board::SIZE; ++i)
     {
         lineStream << ", EMPTY";
     }
@@ -53,7 +53,7 @@ TEST(Board, print)
     std::string line = lineStream.str();
 
     std::ostringstream expectedStream;
-    for(unsigned int i = 0; i < Board::BOARD_SIZE; ++i)
+    for(unsigned int i = 0; i < Board::SIZE; ++i)
     {
         expectedStream << line;
     }

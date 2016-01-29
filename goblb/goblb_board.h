@@ -15,7 +15,7 @@ class Board
 {
   public:
     // CLASS DATA
-    static constexpr unsigned int BOARD_SIZE = 19;
+    static constexpr unsigned int SIZE = 19;
 
   private:
     // DATA
@@ -49,8 +49,8 @@ std::ostream& operator<<(std::ostream& stream, const Board& board);
 inline
 void Board::setState(unsigned int i, unsigned int j, SpaceState::Value state)
 {
-    assert(i < BOARD_SIZE);
-    assert(j < BOARD_SIZE);
+    assert(i < SIZE);
+    assert(j < SIZE);
 
     d_spaces[i][j]->setState(state);
 }
@@ -58,8 +58,8 @@ void Board::setState(unsigned int i, unsigned int j, SpaceState::Value state)
 inline
 const Space::Ptr& Board::space(unsigned int i, unsigned int j) const
 {
-    assert(i < BOARD_SIZE);
-    assert(j < BOARD_SIZE);
+    assert(i < SIZE);
+    assert(j < SIZE);
 
     return d_spaces[i][j];
 }
@@ -67,8 +67,8 @@ const Space::Ptr& Board::space(unsigned int i, unsigned int j) const
 inline
 SpaceState::Value Board::state(unsigned int i, unsigned int j) const
 {
-    assert(i < BOARD_SIZE);
-    assert(j < BOARD_SIZE);
+    assert(i < SIZE);
+    assert(j < SIZE);
 
     return d_spaces[i][j]->state();
 }
