@@ -27,7 +27,8 @@ class Board
 
   public:
     // MANIPULATORS
-    void setState(unsigned int i, unsigned int j, SpaceState::Value state);
+    void setState(unsigned int i, unsigned int j, SpaceState::Value value);
+    void play(unsigned int i, unsigned int j, SpaceState::Value value);
 
   public:
     // ACCESSORS
@@ -47,12 +48,12 @@ std::ostream& operator<<(std::ostream& stream, const Board& board);
 
 // INLINES
 inline
-void Board::setState(unsigned int i, unsigned int j, SpaceState::Value state)
+void Board::setState(unsigned int i, unsigned int j, SpaceState::Value value)
 {
     assert(i < SIZE);
     assert(j < SIZE);
 
-    d_spaces[i][j]->setState(state);
+    d_spaces[i][j]->setState(value);
 }
 
 inline

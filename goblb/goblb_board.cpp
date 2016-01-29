@@ -11,9 +11,14 @@ Board::Board()
     {
         for(unsigned int j = 0; j < SIZE; ++j)
         {
-            d_spaces[i][j].reset(new Space());
+            d_spaces[i][j].reset(new Space(i, j));
         }
     }
+}
+
+void Board::play(unsigned int i, unsigned int j, SpaceState::Value value)
+{
+    assert(SpaceState::EMPTY == state(i, j));
 }
 
 void Board::print(std::ostream& stream) const

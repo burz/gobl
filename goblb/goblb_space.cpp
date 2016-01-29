@@ -4,13 +4,14 @@
 
 namespace goblb {
 
-Space::Space()
-: d_state(SpaceState::EMPTY)
-{
-}
-
-Space::Space(SpaceState::Value state)
-: d_state(state)
+Space::Space(
+      unsigned int i
+    , unsigned int j
+    , SpaceState::Value state
+)
+: d_i(i)
+, d_j(j)
+, d_state(state)
 {
 }
 
