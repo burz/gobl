@@ -7,28 +7,31 @@
 
 namespace goblb {
 
-void BlockMap::insert(unsigned int i, unsigned int j, const Block::Ptr& block)
+void BlockMap::insert(const Block::Ptr& block_p)
 {
-    assert(i < Board::SIZE);
-    assert(j < Board::SIZE);
+    for(auto itt = block_p->members().begin()
+      ; itt != block_p->members().end()
+      ; ++itt)
+    {
+        const Space::Ptr& space_p = *itt;
 
-    Coordinates coordinates(i, j);
-
-    assert(d_map.end() == d_map.find(coordinates));
-
-    d_map.insert(Map::value_type(coordinates, block));
+        d_map.insert(Map::value_type(
+              Coordinates(space_p->i(), space_p->j())
+            , block_p
+        ));
+    }
 }
 
-void BlockMap::remove(unsigned int i, unsigned int j)
+void BlockMap::remove(const Block::Ptr& block_p)
 {
-    assert(i < Board::SIZE);
-    assert(j < Board::SIZE);
+    for(auto itt = block_p->members().begin()
+      ; itt != block_p->members().end()
+      ; ++itt)
+    {
+        const Space::Ptr& space_p = *itt;
 
-    Coordinates coordinates(i, j);
-
-    assert(d_map.end() != d_map.find(coordinates));
-
-    d_map.erase(coordinates);
+        d_map.erase(Coordinates(space_p->i(), space_p->j()));
+    }
 }
 
 Block::Ptr BlockMap::lookup(unsigned int i, unsigned int j) const

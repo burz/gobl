@@ -21,8 +21,11 @@ TEST(BlockMap, lookup)
     {
         BlockMap map;
 
+        Space::Ptr space(new Space(7, 3, SpaceState::BLACK));
         Block::Ptr block(new Block());
-        map.insert(7, 3, block);
+        block->addMember(space);
+
+        map.insert(block);
 
         Block::Ptr returnedBlock = map.lookup(7, 3);
         EXPECT_TRUE(static_cast<bool>(returnedBlock));
@@ -31,13 +34,16 @@ TEST(BlockMap, lookup)
     {
         BlockMap map;
 
+        Space::Ptr space(new Space(7, 3, SpaceState::BLACK));
         Block::Ptr block(new Block());
-        map.insert(7, 3, block);
+        block->addMember(space);
+
+        map.insert(block);
 
         block = map.lookup(7, 3);
         EXPECT_TRUE(static_cast<bool>(block));
 
-        map.remove(7, 3);
+        map.remove(block);
 
         block = map.lookup(7, 3);
         EXPECT_FALSE(static_cast<bool>(block));

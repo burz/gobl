@@ -5,25 +5,70 @@
 namespace goblb {
 
 void Board::handleAdjacentSpace(
-      std::vector<Space::Ptr>& adjacentFriends
+      std::set<Block::Ptr>& adjacentFriends
     , std::vector<Space::Ptr>& newLiberties
     , unsigned int i
     , unsigned int j
     , const Space::Ptr& space_p
 )
 {
+    const Space::Ptr& adjacent_p = space(i, j);
+
+    if(SpaceState::EMPTY == adjacent_p->state())
+    {
+        newLiberties.push_back(adjacent_p);
+
+        return;
+    }
+
+    const Block::Ptr& block_p = d_blockMap.lookup(i, j);
+
+    if(space_p->state() == adjacent_p->state())
+    {
+        adjacentFriends.insert(block_p);
+
+        return;
+    }
+
+    if(1 == block_p->libs())
+    {
+        d_score += (SpaceState::WHITE == space_p->state() ? -1 : 1)
+                 * block_p->libs();
+
+        d_blockMap.remove(block_p);
+    }
+    else
+    {
+        block_p->removeLiberty(space_p);
+    }
 }
 
 void Board::linkAdjacentFriendsWith(
-      std::vector<Space::Ptr>& adjacentFriends
+      std::set<Block::Ptr>& adjacentFriends
     , std::vector<Space::Ptr>& newLiberties
     , const Space::Ptr& space_p
 )
 {
+    Block::Ptr block_p(new Block());
+
+    block_p->addMember(space_p);
+
+    for(auto itt = adjacentFriends.begin(); itt != adjacentFriends.end(); ++itt)
+    {
+        block_p->absorb(**itt);
+    }
+
+    d_blockMap.insert(block_p);
+
+    for(auto itt = newLiberties.begin(); itt != newLiberties.end(); ++itt)
+    {
+        block_p->addLiberty(*itt);
+    }
 }
 
 Board::Board()
 : d_spaces(SIZE, std::vector<Space::Ptr>(SIZE))
+, d_score(0)
 {
     for(unsigned int i = 0; i < SIZE; ++i)
     {
@@ -42,7 +87,7 @@ void Board::play(unsigned int i, unsigned int j, SpaceState::Value value)
 
     space_p->setState(value);
 
-    std::vector<Space::Ptr> adjacentFriends;
+    std::set<Block::Ptr> adjacentFriends;
     std::vector<Space::Ptr> newLiberties;
 
     handleAdjacentSpace(

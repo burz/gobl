@@ -23,8 +23,8 @@ class BlockMap
 
   public:
     // MANIPULATORS
-    void insert(unsigned int i, unsigned int j, const Block::Ptr& block);
-    void remove(unsigned int i, unsigned int j);
+    void insert(const Block::Ptr& block);
+    void remove(const Block::Ptr& block);
 
   public:
     // ACCESSORS

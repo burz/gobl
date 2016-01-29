@@ -11,6 +11,7 @@
 #endif
 
 #include <cassert>
+#include <set>
 #include <vector>
 
 namespace goblb {
@@ -25,11 +26,12 @@ class Board
     // DATA
     std::vector<std::vector<Space::Ptr> > d_spaces;
     BlockMap                              d_blockMap;
+    int                                   d_score;
 
   private:
     // PRIVATE MANIPULATORS
     void handleAdjacentSpace(
-          std::vector<Space::Ptr>& adjacentFriends
+          std::set<Block::Ptr>& adjacentFriends
         , std::vector<Space::Ptr>& newLiberties
         , unsigned int i
         , unsigned int j
@@ -37,7 +39,7 @@ class Board
     );
 
     void linkAdjacentFriendsWith(
-          std::vector<Space::Ptr>& adjacentFriends
+          std::set<Block::Ptr>& adjacentFriends
         , std::vector<Space::Ptr>& newLiberties
         , const Space::Ptr& space_p
     );
