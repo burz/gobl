@@ -38,7 +38,10 @@ class Block
   public:
     // ACCESSORS
     unsigned int size() const;
-    unsigned int liberties() const;
+    unsigned int libs() const;
+
+    const std::set<Space::Ptr>& members() const;
+    const std::set<Space::Ptr>& liberties() const;
 };
 
 // INLINES
@@ -74,9 +77,21 @@ unsigned int Block::size() const
 }
 
 inline
-unsigned int Block::liberties() const
+unsigned int Block::libs() const
 {
     return d_liberties.size();
+}
+
+inline
+const std::set<Space::Ptr>& Block::members() const
+{
+    return d_members;
+}
+
+inline
+const std::set<Space::Ptr>& Block::liberties() const
+{
+    return d_liberties;
 }
 
 } // Close goblb

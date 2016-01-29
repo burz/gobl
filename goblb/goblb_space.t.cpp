@@ -9,26 +9,34 @@ namespace goblb {
 TEST(Space, constructor)
 {
     {
-        Space space;
+        Space space(0, 0);
+        EXPECT_EQ(0u, space.i());
+        EXPECT_EQ(0u, space.j());
         EXPECT_EQ(SpaceState::EMPTY, space.state());
     }
     {
-        Space space(SpaceState::EMPTY);
+        Space space(1, 2, SpaceState::EMPTY);
+        EXPECT_EQ(1u, space.i());
+        EXPECT_EQ(2u, space.j());
         EXPECT_EQ(SpaceState::EMPTY, space.state());
     }
     {
-        Space space(SpaceState::BLACK);
+        Space space(4, 5, SpaceState::BLACK);
+        EXPECT_EQ(4u, space.i());
+        EXPECT_EQ(5u, space.j());
         EXPECT_EQ(SpaceState::BLACK, space.state());
     }
     {
-        Space space(SpaceState::WHITE);
+        Space space(3, 2, SpaceState::WHITE);
+        EXPECT_EQ(3u, space.i());
+        EXPECT_EQ(2u, space.j());
         EXPECT_EQ(SpaceState::WHITE, space.state());
     }
 }
 
 TEST(Space, setState)
 {
-    Space space;
+    Space space(0, 0);
     space.setState(SpaceState::BLACK);
     EXPECT_EQ(SpaceState::BLACK, space.state());
     space.setState(SpaceState::WHITE);
@@ -39,11 +47,11 @@ TEST(Space, setState)
 
 TEST(Space, equals)
 {
-    Space space1;
+    Space space1(0, 0);
 
     EXPECT_TRUE(space1 == space1);
 
-    Space space2;
+    Space space2(0, 0);
 
     EXPECT_TRUE(space1 == space2);
     EXPECT_FALSE(space1 != space2);
