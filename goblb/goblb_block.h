@@ -33,6 +33,8 @@ class Block
     void addLiberty(const Space::Ptr& space);
     void removeLiberty(const Space::Ptr& space);
 
+    void absorb(const Block& block);
+
   public:
     // ACCESSORS
     unsigned int size() const;

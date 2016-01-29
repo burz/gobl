@@ -15,7 +15,7 @@ class BlockMap
   public:
     // TYPES
     typedef std::pair<unsigned int, unsigned int> Coordinates;
-    typedef std::map<Coordinates, Block::Ptr>      Map;
+    typedef std::map<Coordinates, Block::Ptr>     Map;
 
   private:
     // DATA
