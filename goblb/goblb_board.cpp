@@ -4,6 +4,24 @@
 
 namespace goblb {
 
+void Board::handleAdjacentSpace(
+      std::vector<Space::Ptr>& adjacentFriends
+    , std::vector<Space::Ptr>& newLiberties
+    , unsigned int i
+    , unsigned int j
+    , const Space::Ptr& space_p
+)
+{
+}
+
+void Board::linkAdjacentFriendsWith(
+      std::vector<Space::Ptr>& adjacentFriends
+    , std::vector<Space::Ptr>& newLiberties
+    , const Space::Ptr& space_p
+)
+{
+}
+
 Board::Board()
 : d_spaces(SIZE, std::vector<Space::Ptr>(SIZE))
 {
@@ -19,6 +37,47 @@ Board::Board()
 void Board::play(unsigned int i, unsigned int j, SpaceState::Value value)
 {
     assert(SpaceState::EMPTY == state(i, j));
+
+    const Space::Ptr& space_p = d_spaces[i][j];
+
+    space_p->setState(value);
+
+    std::vector<Space::Ptr> adjacentFriends;
+    std::vector<Space::Ptr> newLiberties;
+
+    handleAdjacentSpace(
+          adjacentFriends
+        , newLiberties
+        , i + 1
+        , j
+        , space_p
+    );
+
+    handleAdjacentSpace(
+          adjacentFriends
+        , newLiberties
+        , i - 1
+        , j
+        , space_p
+    );
+
+    handleAdjacentSpace(
+          adjacentFriends
+        , newLiberties
+        , i
+        , j + 1
+        , space_p
+    );
+
+    handleAdjacentSpace(
+          adjacentFriends
+        , newLiberties
+        , i
+        , j - 1
+        , space_p
+    );
+
+    linkAdjacentFriendsWith(adjacentFriends, newLiberties, space_p);
 }
 
 void Board::print(std::ostream& stream) const

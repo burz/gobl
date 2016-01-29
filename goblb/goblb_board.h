@@ -2,6 +2,10 @@
 #ifndef INCLUDED_GOBLB_BOARD
 #define INCLUDED_GOBLB_BOARD
 
+#ifndef INCLUDED_GOBLB_BLOCK_MAP
+#include <goblb_block_map.h>
+#endif
+
 #ifndef INCLUDED_GOBLB_SPACE
 #include <goblb_space.h>
 #endif
@@ -20,6 +24,23 @@ class Board
   private:
     // DATA
     std::vector<std::vector<Space::Ptr> > d_spaces;
+    BlockMap                              d_blockMap;
+
+  private:
+    // PRIVATE MANIPULATORS
+    void handleAdjacentSpace(
+          std::vector<Space::Ptr>& adjacentFriends
+        , std::vector<Space::Ptr>& newLiberties
+        , unsigned int i
+        , unsigned int j
+        , const Space::Ptr& space_p
+    );
+
+    void linkAdjacentFriendsWith(
+          std::vector<Space::Ptr>& adjacentFriends
+        , std::vector<Space::Ptr>& newLiberties
+        , const Space::Ptr& space_p
+    );
 
   public:
     // CREATORS
