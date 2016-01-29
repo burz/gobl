@@ -18,17 +18,11 @@ class Space
 
   private:
     // DATA
-    unsigned int      d_i;
-    unsigned int      d_j;
     SpaceState::Value d_state;
 
   public:
     // CREATORS
-    Space(
-          unsigned int i
-        , unsigned int j
-        , SpaceState::Value state = SpaceState::EMPTY
-    );
+    Space(SpaceState::Value state = SpaceState::EMPTY);
 
   public:
     // MANIPULATORS
@@ -36,8 +30,6 @@ class Space
 
   public:
     // ACCESSORS
-    unsigned int i() const;
-    unsigned int j() const;
     SpaceState::Value state() const;
 
     void print(std::ostream& stream) const;
@@ -52,18 +44,6 @@ class Space
 std::ostream& operator<<(std::ostream& stream, const Space& space);
 
 // INLINES
-inline
-unsigned int Space::i() const
-{
-    return d_i;
-}
-
-inline
-unsigned int Space::j() const
-{
-    return d_j;
-}
-
 inline
 void Space::setState(SpaceState::Value value)
 {

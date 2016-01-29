@@ -43,12 +43,17 @@ class Block
 inline
 void Block::addMember(const Space::Ptr& space)
 {
+    assert(SpaceState::EMPTY != space->state());
+    assert(d_members.empty() || (*d_members.begin())->state() == space->state());
+
     d_members.insert(space);
 }
 
 inline
 void Block::addLiberty(const Space::Ptr& space)
 {
+    assert(SpaceState::EMPTY == space->state());
+
     d_liberties.insert(space);
 }
 

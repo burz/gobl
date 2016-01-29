@@ -19,18 +19,18 @@ TEST(Block, size)
     }
     {
         Block block;
-        Space::Ptr space_p(new Space(2, 1));
+        Space::Ptr space_p(new Space(SpaceState::WHITE));
         block.addMember(space_p);
         EXPECT_EQ(1u, block.size());
     }
     {
         Block block;
         {
-            Space::Ptr space_p(new Space(1, 3));
+            Space::Ptr space_p(new Space(SpaceState::BLACK));
             block.addMember(space_p);
         }
         {
-            Space::Ptr space_p(new Space(3, 3));
+            Space::Ptr space_p(new Space(SpaceState::BLACK));
             block.addMember(space_p);
         }
         EXPECT_EQ(2u, block.size());
@@ -45,28 +45,28 @@ TEST(Block, liberties)
     }
     {
         Block block;
-        Space::Ptr space_p(new Space(2, 1));
+        Space::Ptr space_p(new Space());
         block.addLiberty(space_p);
         EXPECT_EQ(1u, block.liberties());
     }
     {
         Block block;
         {
-            Space::Ptr space_p(new Space(1, 3));
+            Space::Ptr space_p(new Space());
             block.addLiberty(space_p);
         }
         {
-            Space::Ptr space_p(new Space(3, 3));
+            Space::Ptr space_p(new Space());
             block.addLiberty(space_p);
         }
         EXPECT_EQ(2u, block.liberties());
     }
     {
         Block block;
-        Space::Ptr space_p(new Space(1, 3));
+        Space::Ptr space_p(new Space());
         block.addLiberty(space_p);
         {
-            Space::Ptr space_p(new Space(3, 3));
+            Space::Ptr space_p(new Space());
             block.addLiberty(space_p);
         }
         EXPECT_EQ(2u, block.liberties());

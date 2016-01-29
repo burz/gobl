@@ -11,7 +11,7 @@ Board::Board()
     {
         for(unsigned int j = 0; j < SIZE; ++j)
         {
-            d_spaces[i][j].reset(new Space(i, j));
+            d_spaces[i][j].reset(new Space());
         }
     }
 }
