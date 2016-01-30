@@ -13,6 +13,11 @@ void Board::handleAdjacentSpace(
     , const Space::Ptr& space_p
 )
 {
+    if(SIZE <= i || SIZE <= j)
+    {
+        return;
+    }
+
     const Space::Ptr& adjacent_p = space(i, j);
 
     if(SpaceState::EMPTY == adjacent_p->state())
