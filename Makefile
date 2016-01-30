@@ -9,6 +9,7 @@ SRCDIRS = \
 . \
 goblb \
 goblr \
+gobls \
 
 INCL = $(SRCDIRS:%=-I%)
 
