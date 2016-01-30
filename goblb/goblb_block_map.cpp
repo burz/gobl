@@ -7,6 +7,40 @@
 
 namespace goblb {
 
+void BlockMap::resetSpace(const Space::Ptr& space_p)
+{
+    space_p->setState(SpaceState::EMPTY);
+
+    Map::const_iterator pos =
+        d_map.find(Coordinates(space_p->i() + 1, space_p->j()));
+
+    if(d_map.end() != pos)
+    {
+        pos->second->addLiberty(space_p);
+    }
+
+    pos = d_map.find(Coordinates(space_p->i() - 1, space_p->j()));
+
+    if(d_map.end() != pos)
+    {
+        pos->second->addLiberty(space_p);
+    }
+
+    pos = d_map.find(Coordinates(space_p->i(), space_p->j() + 1));
+
+    if(d_map.end() != pos)
+    {
+        pos->second->addLiberty(space_p);
+    }
+
+    pos = d_map.find(Coordinates(space_p->i(), space_p->j() - 1));
+
+    if(d_map.end() != pos)
+    {
+        pos->second->addLiberty(space_p);
+    }
+}
+
 void BlockMap::insert(const Block::Ptr& block_p)
 {
     for(auto itt = block_p->members().begin()
@@ -32,7 +66,7 @@ void BlockMap::remove(const Block::Ptr& block_p)
 
         d_map.erase(Coordinates(space_p->i(), space_p->j()));
 
-        space_p->setState(SpaceState::EMPTY);
+        resetSpace(space_p);
     }
 }
 

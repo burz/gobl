@@ -25,10 +25,14 @@ class BlockMap
     // DATA
     Map d_map;
 
+  private:
+    // PRIVATE MANIPULATORS
+    void resetSpace(const Space::Ptr& space_p);
+
   public:
     // MANIPULATORS
-    void insert(const Block::Ptr& block);
-    void remove(const Block::Ptr& block);
+    void insert(const Block::Ptr& block_p);
+    void remove(const Block::Ptr& block_p);
 
   public:
     // ACCESSORS

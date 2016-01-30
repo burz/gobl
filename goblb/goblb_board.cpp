@@ -98,8 +98,6 @@ void Board::play(unsigned int i, unsigned int j, SpaceState::Value value)
 
     const Space::Ptr& space_p = d_spaces[i][j];
 
-    space_p->setState(value);
-
     std::set<Block::Ptr> adjacentFriends;
     std::vector<Space::Ptr> newLiberties;
     Space::Ptr potentialKo_p;
@@ -139,6 +137,8 @@ void Board::play(unsigned int i, unsigned int j, SpaceState::Value value)
         , j - 1
         , space_p
     );
+
+    space_p->setState(value);
 
     linkAdjacentFriendsWith(adjacentFriends, newLiberties, space_p);
 
