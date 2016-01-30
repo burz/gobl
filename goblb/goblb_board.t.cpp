@@ -43,7 +43,7 @@ TEST(Board, setState)
 TEST(Board, print)
 {
     std::ostringstream lineStream;
-    lineStream << "[ EMPTY";
+    lineStream << "  [ EMPTY";
     for(unsigned int i = 1; i < Board::SIZE; ++i)
     {
         lineStream << ", EMPTY";
@@ -53,10 +53,18 @@ TEST(Board, print)
     std::string line = lineStream.str();
 
     std::ostringstream expectedStream;
-    for(unsigned int i = 0; i < Board::SIZE; ++i)
+    for(unsigned int i = 1; i <= Board::SIZE; ++i)
     {
-        expectedStream << line;
+        const unsigned int k = Board::SIZE - i;
+
+        expectedStream << std::setw(2) << k << line;
     }
+    expectedStream << "     ";
+    for(unsigned int j = 0; j < Board::SIZE; ++j)
+    {
+        expectedStream << "  " << std::setw(2) << j << "   ";
+    }
+    expectedStream << std::endl;
 
     std::ostringstream outStream;
 

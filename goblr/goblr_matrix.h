@@ -7,11 +7,16 @@
 #endif
 
 #include <cassert>
+#include <memory>
 
 namespace goblr {
 
 class Matrix
 {
+  public:
+    // TYPES
+    typedef std::shared_ptr<Matrix> Ptr;
+
   private:
     // DATA
     const unsigned int d_size;

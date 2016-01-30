@@ -2,6 +2,8 @@
 
 #include <goblb_board.h>
 
+#include <iomanip>
+
 namespace goblb {
 
 void Board::handleAdjacentSpace(
@@ -162,7 +164,8 @@ void Board::print(std::ostream& stream) const
     {
         const unsigned int k = SIZE - i;
 
-        stream << "[ " << *d_spaces[k][0];
+        stream << std::setw(2) << k
+               << "  [ " << *d_spaces[k][0];
 
         for(unsigned int j = 1; j < SIZE; ++j)
         {
@@ -171,6 +174,16 @@ void Board::print(std::ostream& stream) const
 
         stream << " ]\n";
     }
+
+    stream << "     ";
+
+    for(unsigned int j = 0; j < SIZE; ++j)
+    {
+        stream << "  " << std::setw(2) << j
+               << "   ";
+    }
+
+    stream << std::endl;
 }
 
 bool Board::operator==(const Board& board)
