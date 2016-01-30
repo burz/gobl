@@ -8,9 +8,9 @@ namespace goblb {
 
 TEST(SpaceState, toString)
 {
-    EXPECT_STREQ("EMPTY", SpaceState::toString(SpaceState::EMPTY));
-    EXPECT_STREQ("BLACK", SpaceState::toString(SpaceState::BLACK));
-    EXPECT_STREQ("WHITE", SpaceState::toString(SpaceState::WHITE));
+    EXPECT_STREQ("EMPTY", SpaceState::toString(SpaceState::EMPTY).c_str());
+    EXPECT_STREQ("BLACK", SpaceState::toString(SpaceState::BLACK).c_str());
+    EXPECT_STREQ("WHITE", SpaceState::toString(SpaceState::WHITE).c_str());
 }
 
 } // Close goblb

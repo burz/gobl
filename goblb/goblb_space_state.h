@@ -3,6 +3,7 @@
 #define INCLUDED_GOBLB_SPACE_STATE
 
 #include <iostream>
+#include <string>
 
 namespace goblb {
 
@@ -19,7 +20,7 @@ class SpaceState
 
   public:
     // CLASS METHODS
-    static const char* toString(Value state);
+    static std::string toString(Value state, bool colors = false);
 };
 
 // FREE OPERATORS

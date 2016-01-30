@@ -2,24 +2,57 @@
 
 #include <goblb_space_state.h>
 
+#include <sstream>
+
 namespace goblb {
 
-const char* SpaceState::toString(Value state)
+namespace {
+
+constexpr char RESET[]  = "\e[0m";
+constexpr char YELLOW[] = "\e[33m";
+constexpr char BLUE[]   = "\e[34m";
+
+} // Close anonymous
+
+std::string SpaceState::toString(Value state, bool colors)
 {
+    std::ostringstream stream;
+
     switch(state)
     {
     case SpaceState::EMPTY:
-        return "EMPTY";
+        stream << "EMPTY";
+        break;
     case SpaceState::BLACK:
-        return "BLACK";
+        if(colors)
+        {
+            stream << BLUE;
+        }
+        stream << "BLACK";
+        if(colors)
+        {
+            stream << RESET;
+        }
+        break;
     case SpaceState::WHITE:
-        return "WHITE";
+        if(colors)
+        {
+            stream << YELLOW;
+        }
+        stream << "WHITE";
+        if(colors)
+        {
+            stream << RESET;
+        }
+        break;
     }
+
+    return stream.str();
 }
 
 std::ostream& operator<<(std::ostream& stream, SpaceState::Value state)
 {
-    stream << SpaceState::toString(state);
+    stream << SpaceState::toString(state, true);
     return stream;
 }
 
