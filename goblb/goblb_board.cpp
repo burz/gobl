@@ -7,6 +7,7 @@ namespace goblb {
 void Board::handleAdjacentSpace(
       std::set<Block::Ptr>& adjacentFriends
     , std::vector<Space::Ptr>& newLiberties
+    , Space::Ptr& potentialKo_p
     , unsigned int i
     , unsigned int j
     , const Space::Ptr& space_p
@@ -33,9 +34,16 @@ void Board::handleAdjacentSpace(
     if(1 == block_p->libs())
     {
         d_score += (SpaceState::WHITE == space_p->state() ? -1 : 1)
-                 * block_p->libs();
+                 * block_p->size();
+
+        if(1 == block_p->size())
+        {
+            potentialKo_p = adjacent_p;
+        }
 
         d_blockMap.remove(block_p);
+
+        newLiberties.push_back(adjacent_p);
     }
     else
     {
@@ -89,10 +97,12 @@ void Board::play(unsigned int i, unsigned int j, SpaceState::Value value)
 
     std::set<Block::Ptr> adjacentFriends;
     std::vector<Space::Ptr> newLiberties;
+    Space::Ptr potentialKo_p;
 
     handleAdjacentSpace(
           adjacentFriends
         , newLiberties
+        , potentialKo_p
         , i + 1
         , j
         , space_p
@@ -101,6 +111,7 @@ void Board::play(unsigned int i, unsigned int j, SpaceState::Value value)
     handleAdjacentSpace(
           adjacentFriends
         , newLiberties
+        , potentialKo_p
         , i - 1
         , j
         , space_p
@@ -109,6 +120,7 @@ void Board::play(unsigned int i, unsigned int j, SpaceState::Value value)
     handleAdjacentSpace(
           adjacentFriends
         , newLiberties
+        , potentialKo_p
         , i
         , j + 1
         , space_p
@@ -117,12 +129,26 @@ void Board::play(unsigned int i, unsigned int j, SpaceState::Value value)
     handleAdjacentSpace(
           adjacentFriends
         , newLiberties
+        , potentialKo_p
         , i
         , j - 1
         , space_p
     );
 
     linkAdjacentFriendsWith(adjacentFriends, newLiberties, space_p);
+
+    Block::Ptr block_p = d_blockMap.lookup(space_p);
+
+    assert(static_cast<bool>(block_p));
+
+    if(1 == block_p->libs())
+    {
+        d_ko_p = potentialKo_p;
+    }
+    else
+    {
+        d_ko_p.reset();
+    }
 }
 
 void Board::print(std::ostream& stream) const

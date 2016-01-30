@@ -31,6 +31,8 @@ void BlockMap::remove(const Block::Ptr& block_p)
         const Space::Ptr& space_p = *itt;
 
         d_map.erase(Coordinates(space_p->i(), space_p->j()));
+
+        space_p->setState(SpaceState::EMPTY);
     }
 }
 

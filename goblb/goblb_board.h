@@ -27,12 +27,14 @@ class Board
     std::vector<std::vector<Space::Ptr> > d_spaces;
     BlockMap                              d_blockMap;
     int                                   d_score;
+    Space::Ptr                            d_ko_p;
 
   private:
     // PRIVATE MANIPULATORS
     void handleAdjacentSpace(
           std::set<Block::Ptr>& adjacentFriends
         , std::vector<Space::Ptr>& newLiberties
+        , Space::Ptr& potentialKo_p
         , unsigned int i
         , unsigned int j
         , const Space::Ptr& space_p
@@ -57,6 +59,7 @@ class Board
     // ACCESSORS
     const Space::Ptr& space(unsigned int i, unsigned int j) const;
     SpaceState::Value state(unsigned int i, unsigned int j) const;
+    const Space::Ptr& ko() const;
 
     void print(std::ostream& stream) const;
 
@@ -95,6 +98,12 @@ SpaceState::Value Board::state(unsigned int i, unsigned int j) const
     assert(j < SIZE);
 
     return d_spaces[i][j]->state();
+}
+
+inline
+const Space::Ptr& Board::ko() const
+{
+    return d_ko_p;
 }
 
 inline
