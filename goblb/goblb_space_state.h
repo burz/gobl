@@ -21,6 +21,10 @@ class SpaceState
   public:
     // CLASS METHODS
     static std::string toString(Value state, bool colors = false);
+
+  private:
+    // NOT IMPLEMENTED
+    SpaceState();
 };
 
 // FREE OPERATORS

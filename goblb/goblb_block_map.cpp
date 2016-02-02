@@ -3,6 +3,7 @@
 #include <goblb_block_map.h>
 #include <goblb_board.h>
 
+#include <iomanip>
 #include <cassert>
 
 namespace goblb {
@@ -85,6 +86,77 @@ Block::Ptr BlockMap::lookup(unsigned int i, unsigned int j) const
     }
 
     return block_p;
+}
+
+void BlockMap::print(std::ostream& stream) const
+{
+    if(!d_map.empty())
+    {
+        unsigned int iMin = static_cast<unsigned int>(-1);
+        unsigned int iMax = 0;
+        unsigned int jMin = static_cast<unsigned int>(-1);
+        unsigned int jMax = 0;
+
+        for(auto itt = d_map.begin(); itt != d_map.end(); ++itt)
+        {
+            if(iMin > itt->first.first)
+            {
+                iMin = itt->first.first;
+            }
+            if(iMax < itt->first.first)
+            {
+                iMax = itt->first.first;
+            }
+
+            if(jMin > itt->first.second)
+            {
+                jMin = itt->first.second;
+            }
+            if(jMax < itt->first.second)
+            {
+                jMax = itt->first.second;
+            }
+        }
+
+        for(unsigned int i = iMax; i >= iMin; --i)
+        {
+            stream << std::setw(2) << i << "  [";
+
+            for(unsigned int j = jMin; j <= jMax; ++j)
+            {
+                Map::const_iterator pos =
+                    d_map.find(Coordinates(i, j));
+
+                if(d_map.end() != pos)
+                {
+                    stream << "  " << std::setw(3)
+                           << pos->second->libs()
+                           << (SpaceState::WHITE == pos->second->state() ? 'W' : 'B')
+                           << ' ';
+                }
+                else
+                {
+                    stream << "  EMPTY";
+                }
+            }
+
+            stream << " ]" << std::endl;
+        }
+
+        stream << "   ";
+
+        for(unsigned int j = jMin; j <= jMax; ++j)
+        {
+            stream << "     " << std::setw(2) << j;
+        }
+    }
+}
+
+std::ostream& operator<<(std::ostream& stream, const BlockMap& blockMap)
+{
+    blockMap.print(stream);
+
+    return stream;
 }
 
 } // Close goblb

@@ -10,6 +10,7 @@
 #include <goblb_space.h>
 #endif
 
+#include <iostream>
 #include <map>
 
 namespace goblb {
@@ -38,7 +39,12 @@ class BlockMap
     // ACCESSORS
     Block::Ptr lookup(unsigned int i, unsigned int j) const;
     Block::Ptr lookup(const Space::Ptr& space_p) const;
+
+    void print(std::ostream& stream) const;
 };
+
+// FREE OPERATORS
+std::ostream& operator<<(std::ostream& stream, const BlockMap& blockMap);
 
 // INLINES
 inline

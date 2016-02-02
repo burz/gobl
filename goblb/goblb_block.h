@@ -39,6 +39,7 @@ class Block
     // ACCESSORS
     unsigned int size() const;
     unsigned int libs() const;
+    SpaceState::Value state() const;
 
     const std::set<Space::Ptr>& members() const;
     const std::set<Space::Ptr>& liberties() const;
@@ -80,6 +81,14 @@ inline
 unsigned int Block::libs() const
 {
     return d_liberties.size();
+}
+
+inline
+SpaceState::Value Block::state() const
+{
+    assert(!d_members.empty());
+
+    return (*d_members.begin())->state();
 }
 
 inline
