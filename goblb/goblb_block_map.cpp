@@ -141,6 +141,11 @@ void BlockMap::print(std::ostream& stream) const
             }
 
             stream << " ]" << std::endl;
+
+            if(0 == i)
+            {
+                break;
+            }
         }
 
         stream << "   ";

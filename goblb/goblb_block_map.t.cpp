@@ -137,14 +137,15 @@ TEST(BlockMap, removeSingleSpace)
                 block->addMember(space);
             }
             {
-                Space::Ptr space(new Space(7, 5, SpaceState::EMPTY));
-                block->addLiberty(space);
-            }
-            { Space::Ptr space(new Space(8, 4, SpaceState::EMPTY));
+                Space::Ptr space(new Space(7, 5));
                 block->addLiberty(space);
             }
             {
-                Space::Ptr space(new Space(6, 4, SpaceState::EMPTY));
+                Space::Ptr space(new Space(8, 4));
+                block->addLiberty(space);
+            }
+            {
+                Space::Ptr space(new Space(6, 4));
                 block->addLiberty(space);
             }
             map.insert(block);
@@ -167,6 +168,43 @@ TEST(BlockMap, removeSingleSpace)
         Space::Ptr space(new Space(4, 4, SpaceState::WHITE));
         block->addMember(space);
         map.insert(block);
+
+        BlockMapRemoveValidator validator(map);
+
+        validator.validate(block);
+    }
+}
+
+TEST(BlockMap, removeTwoSpaces)
+{
+    {
+        BlockMap map;
+
+        insertKoShape(map, 2, 2);
+        insertKoShape(map, 7, 2);
+
+        {
+            Block::Ptr block(new Block());
+            Space::Ptr space(new Space(4, 3, SpaceState::BLACK));
+            block->addMember(space);
+            space.reset(new Space(5, 3, SpaceState::BLACK));
+            block->addMember(space);
+            space.reset(new Space(4, 4));
+            block->addLiberty(space);
+            space.reset(new Space(5, 4));
+            block->addLiberty(space);
+            space.reset(new Space(6, 3));
+            block->addLiberty(space);
+            space.reset(new Space(3, 3));
+            block->addLiberty(space);
+            map.insert(block);
+        }
+
+        Block::Ptr block(new Block());
+        Space::Ptr space(new Space(4, 2, SpaceState::WHITE));
+        block->addMember(space);
+        space.reset(new Space(5, 2, SpaceState::WHITE));
+        block->addMember(space);
 
         BlockMapRemoveValidator validator(map);
 
