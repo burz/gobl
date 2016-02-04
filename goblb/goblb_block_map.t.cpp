@@ -10,7 +10,7 @@ namespace goblb {
 
 namespace {
 
-void insertKoShape(
+void insertEmptyKoShape(
       BlockMap& blockMap
     , unsigned int i = 1
     , unsigned int j = 1
@@ -162,7 +162,7 @@ TEST(BlockMap, removeSingleSpace)
     {
         BlockMap map;
 
-        insertKoShape(map, 4, 4);
+        insertEmptyKoShape(map, 4, 4);
 
         Block::Ptr block(new Block());
         Space::Ptr space(new Space(4, 4, SpaceState::WHITE));
@@ -180,8 +180,8 @@ TEST(BlockMap, removeTwoSpaces)
     {
         BlockMap map;
 
-        insertKoShape(map, 2, 2);
-        insertKoShape(map, 7, 2);
+        insertEmptyKoShape(map, 2, 2);
+        insertEmptyKoShape(map, 7, 2);
 
         {
             Block::Ptr block(new Block());
@@ -216,7 +216,7 @@ TEST(BlockMap, print)
 {
     BlockMap map;
 
-    insertKoShape(map, 4, 4);
+    insertEmptyKoShape(map, 4, 4);
 
     std::ostringstream stream;
 

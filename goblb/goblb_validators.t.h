@@ -16,6 +16,7 @@
 
 #include <gtest/gtest.h>
 #include <map>
+#include <set>
 
 namespace goblb {
 
@@ -23,7 +24,8 @@ class BlockMapRemoveValidator
 {
   public:
     // TYPES
-    typedef std::map<Block::Ptr, unsigned int> LibertiesMap;
+    typedef std::pair<std::set<Space::Ptr>, unsigned int> SpaceSetLiberties;
+    typedef std::map<Block::Ptr, SpaceSetLiberties> LibertiesMap;
 
   private:
     // DATA
@@ -43,24 +45,34 @@ class BlockMapRemoveValidator
     // PRIVATE MANIPULATORS
     void setupBlock(
           Block::Ptr adjacentBlock_p
-        , SpaceState::Value blockState
+        , const Space::Ptr& space_p
     )
     {
         if(adjacentBlock_p)
         {
-            ASSERT_LT(0u, adjacentBlock_p->size());
-            
-            SpaceState::Value adjacentState =
-                (*adjacentBlock_p->members().begin())->state();
+            SpaceState::Value adjacentState = adjacentBlock_p->state();
 
-            if(blockState != adjacentState)
+            if(space_p->state() != adjacentState)
             {
                 ASSERT_LT(0u, adjacentBlock_p->libs());
 
-                d_exterior.insert(LibertiesMap::value_type(
-                      adjacentBlock_p
-                    , adjacentBlock_p->libs()
-                ));
+                LibertiesMap::iterator pos =
+                    d_exterior.find(adjacentBlock_p);
+
+                if(d_exterior.end() != pos)
+                {
+                    pos->second.first.insert(space_p);
+                }
+                else
+                {
+                    d_exterior.insert(LibertiesMap::value_type(
+                          adjacentBlock_p
+                        , SpaceSetLiberties(
+                              std::set<Space::Ptr>({space_p})
+                            , adjacentBlock_p->libs()
+                          )
+                    ));
+                }
             }
         }
     }
@@ -68,9 +80,6 @@ class BlockMapRemoveValidator
     void setup(const Block::Ptr& block_p)
     {
         ASSERT_TRUE(static_cast<bool>(block_p));
-        ASSERT_LT(0u, block_p->size());
-
-        SpaceState::Value blockState = (*block_p->members().begin())->state();
 
         for(auto itt = block_p->members().begin()
           ; block_p->members().end() != itt
@@ -80,19 +89,19 @@ class BlockMapRemoveValidator
 
             setupBlock(
                   d_blockMap.lookup((*itt)->i() + 1, (*itt)->j())
-                , blockState
+                , *itt
             );
             setupBlock(
                   d_blockMap.lookup((*itt)->i() - 1, (*itt)->j())
-                , blockState
+                , *itt
             );
             setupBlock(
                   d_blockMap.lookup((*itt)->i(), (*itt)->j() + 1)
-                , blockState
+                , *itt
             );
             setupBlock(
                   d_blockMap.lookup((*itt)->i(), (*itt)->j() - 1)
-                , blockState
+                , *itt
             );
         }
     }
@@ -106,7 +115,10 @@ class BlockMapRemoveValidator
 
         for(auto itt = d_exterior.begin(); itt != d_exterior.end(); ++itt)
         {
-            EXPECT_EQ(itt->second + 1, itt->first->libs());
+            const unsigned int membersTouching = itt->second.first.size();
+            const unsigned int blockLiberties = itt->second.second;
+
+            EXPECT_EQ(blockLiberties + membersTouching, itt->first->libs());
         }
     }
 

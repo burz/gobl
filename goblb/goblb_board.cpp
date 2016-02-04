@@ -84,6 +84,7 @@ void Board::linkAdjacentFriendsWith(
 Board::Board()
 : d_spaces(SIZE, std::vector<Space::Ptr>(SIZE))
 , d_score(0)
+, d_nextMove(SpaceState::BLACK)
 {
     for(unsigned int i = 0; i < SIZE; ++i)
     {

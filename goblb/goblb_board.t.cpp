@@ -105,4 +105,60 @@ TEST(Board, equals)
     EXPECT_TRUE(board1 == board1);
 }
 
+TEST(Board, nextMove)
+{
+    Board board;
+
+    EXPECT_EQ(SpaceState::BLACK, board.nextMove());
+
+    board.play(12, 1);
+
+    EXPECT_EQ(SpaceState::WHITE, board.nextMove());
+
+    board.play(3, 4);
+
+    EXPECT_EQ(SpaceState::BLACK, board.nextMove());
+}
+
+TEST(Board, playCaptureCorner)
+{
+    Board board;
+
+    board.play(0, 1);
+
+    std::cout << board << std::endl;
+
+    EXPECT_EQ(SpaceState::BLACK, board.state(0, 1));
+
+    Block::Ptr block1_p = board.lookupBlock(0, 1);
+    EXPECT_TRUE(static_cast<bool>(block1_p));
+    EXPECT_EQ(3u, block1_p->libs());
+
+    board.play(0, 0);
+
+    std::cout << board << std::endl;
+
+    EXPECT_EQ(SpaceState::WHITE, board.state(0, 0));
+
+    Block::Ptr block2_p = board.lookupBlock(0, 0);
+    EXPECT_TRUE(static_cast<bool>(block2_p));
+    EXPECT_EQ(1u, block2_p->libs());
+    EXPECT_EQ(2u, block1_p->libs());
+
+    board.play(1, 0);
+
+    std::cout << board << std::endl;
+
+    EXPECT_EQ(SpaceState::BLACK, board.state(1, 0));
+
+    Block::Ptr block3_p = board.lookupBlock(1, 0);
+    EXPECT_TRUE(static_cast<bool>(block3_p));
+    EXPECT_EQ(3u, block3_p->libs());
+    EXPECT_EQ(3u, block1_p->libs());
+
+    block2_p = board.lookupBlock(0, 0);
+    EXPECT_FALSE(static_cast<bool>(block2_p));
+    EXPECT_EQ(SpaceState::EMPTY, board.state(0, 0));
+}
+
 } // Close goblb

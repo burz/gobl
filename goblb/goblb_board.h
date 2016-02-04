@@ -28,6 +28,7 @@ class Board
     BlockMap                              d_blockMap;
     int                                   d_score;
     Space::Ptr                            d_ko_p;
+    SpaceState::Value                     d_nextMove;
 
   private:
     // PRIVATE MANIPULATORS
@@ -53,13 +54,17 @@ class Board
   public:
     // MANIPULATORS
     void setState(unsigned int i, unsigned int j, SpaceState::Value value);
+
     void play(unsigned int i, unsigned int j, SpaceState::Value value);
+    void play(unsigned int i, unsigned int j);
 
   public:
     // ACCESSORS
     const Space::Ptr& space(unsigned int i, unsigned int j) const;
     SpaceState::Value state(unsigned int i, unsigned int j) const;
+    Block::Ptr lookupBlock(unsigned int i, unsigned int j) const;
     const Space::Ptr& ko() const;
+    SpaceState::Value nextMove() const;
 
     void print(std::ostream& stream) const;
 
@@ -83,6 +88,16 @@ void Board::setState(unsigned int i, unsigned int j, SpaceState::Value value)
 }
 
 inline
+void Board::play(unsigned int i, unsigned int j)
+{
+    play(i, j, d_nextMove);
+
+    d_nextMove = SpaceState::BLACK == d_nextMove
+        ? SpaceState::WHITE
+        : SpaceState::BLACK;
+}
+
+inline
 const Space::Ptr& Board::space(unsigned int i, unsigned int j) const
 {
     assert(i < SIZE);
@@ -101,9 +116,21 @@ SpaceState::Value Board::state(unsigned int i, unsigned int j) const
 }
 
 inline
+Block::Ptr Board::lookupBlock(unsigned int i, unsigned int j) const
+{
+    return d_blockMap.lookup(i, j);
+}
+
+inline
 const Space::Ptr& Board::ko() const
 {
     return d_ko_p;
+}
+
+inline
+SpaceState::Value Board::nextMove() const
+{
+    return d_nextMove;
 }
 
 inline
