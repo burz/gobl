@@ -89,18 +89,21 @@ TEST(Board, equals)
     EXPECT_TRUE(board1 == board1);
 
     Board board2;
-
     EXPECT_TRUE(board1 == board2);
     EXPECT_FALSE(board1 != board2);
+
     board1.setState(0, 0, SpaceState::BLACK);
     EXPECT_FALSE(board1 == board2);
     EXPECT_TRUE(board1 != board2);
+
     board2.setState(0, 0, SpaceState::WHITE);
     EXPECT_FALSE(board1 == board2);
     EXPECT_TRUE(board1 != board2);
+
     board2.setState(0, 0, SpaceState::BLACK);
     EXPECT_TRUE(board1 == board2);
     EXPECT_FALSE(board1 != board2);
+
     board2.setState(3, 5, SpaceState::BLACK);
     EXPECT_FALSE(board1 == board2);
     EXPECT_TRUE(board1 != board2);
@@ -176,9 +179,9 @@ TEST(Board, playCornerFriends)
 
     EXPECT_EQ(SpaceState::BLACK, board.state(0, 0));
 
-    Block::Ptr block1_p = board.block(0, 0);
-    ASSERT_TRUE(static_cast<bool>(block1_p));
-    EXPECT_EQ(2u, block1_p->libs());
+    Block::Ptr block_p = board.block(0, 0);
+    ASSERT_TRUE(static_cast<bool>(block_p));
+    EXPECT_EQ(2u, block_p->libs());
 
     board.play(13, 13);
 
@@ -186,10 +189,10 @@ TEST(Board, playCornerFriends)
 
     EXPECT_EQ(SpaceState::WHITE, board.state(13, 13));
 
-    Block::Ptr block2_p = board.block(13, 13);
-    ASSERT_TRUE(static_cast<bool>(block2_p));
-    EXPECT_EQ(4u, block2_p->libs());
-    EXPECT_EQ(2u, block1_p->libs());
+    block_p = board.block(13, 13);
+    ASSERT_TRUE(static_cast<bool>(block_p));
+    EXPECT_EQ(4u, block_p->libs());
+    EXPECT_EQ(2u, board.block(0, 0)->libs());
 
     board.play(1, 0);
 
@@ -197,10 +200,11 @@ TEST(Board, playCornerFriends)
 
     EXPECT_EQ(SpaceState::BLACK, board.state(1, 0));
 
-    Block::Ptr block3_p = board.block(1, 0);
-    ASSERT_TRUE(static_cast<bool>(block3_p));
-    EXPECT_EQ(3u, block3_p->libs());
-    EXPECT_EQ(4u, block2_p->libs());
+    block_p = board.block(1, 0);
+    ASSERT_TRUE(static_cast<bool>(block_p));
+    EXPECT_EQ(3u, block_p->libs());
+    EXPECT_EQ(4u, board.block(13, 13)->libs());
+    EXPECT_EQ(3u, board.block(0, 0)->libs());
 
     board.play(13, 11);
 
@@ -208,23 +212,28 @@ TEST(Board, playCornerFriends)
 
     EXPECT_EQ(SpaceState::WHITE, board.state(13, 11));
 
-    Block::Ptr block4_p = board.block(13, 11);
-    ASSERT_TRUE(static_cast<bool>(block4_p));
-    EXPECT_EQ(4u, block4_p->libs());
-    EXPECT_EQ(3u, block3_p->libs());
-    EXPECT_EQ(4u, block2_p->libs());
+    block_p = board.block(13, 11);
+    ASSERT_TRUE(static_cast<bool>(block_p));
+    EXPECT_EQ(4u, block_p->libs());
+    EXPECT_EQ(4u, board.block(13, 13)->libs());
+    EXPECT_EQ(3u, board.block(1, 0)->libs());
+    EXPECT_EQ(3u, board.block(0, 0)->libs());
 
     board.play(0, 1);
 
     std::cout << board << std::endl;
+    board.printBlockMap(std::cout);
+    std::cout << std::endl;
 
     EXPECT_EQ(SpaceState::BLACK, board.state(0, 1));
 
-    Block::Ptr block5_p = board.block(0, 1);
-    ASSERT_TRUE(static_cast<bool>(block5_p));
-    EXPECT_EQ(3u, block5_p->libs());
-    EXPECT_EQ(4u, block4_p->libs());
-    EXPECT_EQ(4u, block2_p->libs());
+    block_p = board.block(0, 1);
+    ASSERT_TRUE(static_cast<bool>(block_p));
+    EXPECT_EQ(3u, block_p->libs());
+    EXPECT_EQ(4u, board.block(13, 11)->libs());
+    EXPECT_EQ(4u, board.block(13, 13)->libs());
+    EXPECT_EQ(3u, board.block(1, 0)->libs());
+    EXPECT_EQ(3u, board.block(0, 0)->libs());
 
     EXPECT_EQ(0, board.score());
 }
@@ -250,6 +259,16 @@ TEST(Board, playCaptureBigGroup)
     EXPECT_EQ(9u, board.block(10, 10)->size());
     EXPECT_EQ(12u, board.block(10, 10)->libs());
 
+    EXPECT_EQ(12u, board.block(9, 9)->libs());
+    EXPECT_EQ(12u, board.block(9, 10)->libs());
+    EXPECT_EQ(12u, board.block(9, 11)->libs());
+    EXPECT_EQ(12u, board.block(10, 9)->libs());
+    EXPECT_EQ(12u, board.block(10, 10)->libs());
+    EXPECT_EQ(12u, board.block(10, 11)->libs());
+    EXPECT_EQ(12u, board.block(11, 9)->libs());
+    EXPECT_EQ(12u, board.block(11, 10)->libs());
+    EXPECT_EQ(12u, board.block(11, 11)->libs());
+
     board.play(8, 9, SpaceState::WHITE);
     board.play(8, 10, SpaceState::WHITE);
     board.play(8, 11, SpaceState::WHITE);
@@ -270,6 +289,37 @@ TEST(Board, playCaptureBigGroup)
     std::cout << "END" << std::endl << board << std::endl;
     board.printBlockMap(std::cout);
     std::cout << std::endl;
+}
+
+TEST(Board, playKo)
+{
+    Board board;
+
+    EXPECT_FALSE(static_cast<bool>(board.ko()));
+
+    board.play(0, 0);
+    board.play(1, 0);
+    board.play(1, 1);
+    board.play(4, 1);
+    board.play(0, 2);
+
+    std::cout << board << std::endl;
+
+    EXPECT_FALSE(static_cast<bool>(board.ko()));
+
+    board.play(0, 1);
+
+    std::cout << board << std::endl;
+
+    EXPECT_TRUE(static_cast<bool>(board.ko()));
+    EXPECT_EQ(board.space(0, 0), board.ko());
+
+    board.play(0, 0);
+
+    std::cout << board << std::endl;
+
+    EXPECT_TRUE(static_cast<bool>(board.ko()));
+    EXPECT_EQ(board.space(0, 1), board.ko());
 }
 
 } // Close goblb

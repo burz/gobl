@@ -43,6 +43,11 @@ class Block
 
     const std::set<Space::Ptr>& members() const;
     const std::set<Space::Ptr>& liberties() const;
+
+  public:
+    // OPERATORS
+    bool operator==(const Block& space) const;
+    bool operator!=(const Block& space) const;
 };
 
 // INLINES
@@ -101,6 +106,19 @@ inline
 const std::set<Space::Ptr>& Block::liberties() const
 {
     return d_liberties;
+}
+
+inline
+bool Block::operator==(const Block& space) const
+{
+    return d_members == space.members()
+        && d_liberties == space.liberties();
+}
+
+inline
+bool Block::operator!=(const Block& space) const
+{
+    return !(*this == space);
 }
 
 } // Close goblb

@@ -105,4 +105,32 @@ TEST(Block, libs)
     }
 }
 
+TEST(Block, equals)
+{
+    Block block1;
+    Block block2;
+    EXPECT_TRUE(block1 == block2);
+    EXPECT_FALSE(block1 != block2);
+
+    Space::Ptr space_p(new Space(5, 4, SpaceState::WHITE));
+    block1.addMember(space_p);
+    EXPECT_FALSE(block1 == block2);
+    EXPECT_TRUE(block1 != block2);
+
+    block2.addMember(space_p);
+    EXPECT_TRUE(block1 == block2);
+    EXPECT_FALSE(block1 != block2);
+
+    space_p.reset(new Space(5, 3));
+    block2.addLiberty(space_p);
+    EXPECT_FALSE(block1 == block2);
+    EXPECT_TRUE(block1 != block2);
+
+    block1.addLiberty(space_p);
+    EXPECT_TRUE(block1 == block2);
+    EXPECT_FALSE(block1 != block2);
+
+    EXPECT_TRUE(block1 == block1);
+}
+
 } // Close goblb
