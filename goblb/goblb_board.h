@@ -62,7 +62,7 @@ class Board
     // ACCESSORS
     const Space::Ptr& space(unsigned int i, unsigned int j) const;
     SpaceState::Value state(unsigned int i, unsigned int j) const;
-    Block::Ptr lookupBlock(unsigned int i, unsigned int j) const;
+    Block::Ptr block(unsigned int i, unsigned int j) const;
     int score() const;
     const Space::Ptr& ko() const;
     SpaceState::Value nextMove() const;
@@ -118,7 +118,7 @@ SpaceState::Value Board::state(unsigned int i, unsigned int j) const
 }
 
 inline
-Block::Ptr Board::lookupBlock(unsigned int i, unsigned int j) const
+Block::Ptr Board::block(unsigned int i, unsigned int j) const
 {
     return d_blockMap.lookup(i, j);
 }
