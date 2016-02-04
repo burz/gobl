@@ -40,7 +40,7 @@ void Board::handleAdjacentSpace(
 
     if(1 == block_p->libs())
     {
-        d_score += (SpaceState::WHITE == space_p->state() ? -1 : 1)
+        d_score += (SpaceState::WHITE == space_p->state() ? 1 : -1)
                  * block_p->size();
 
         if(1 == block_p->size())
@@ -71,6 +71,8 @@ void Board::linkAdjacentFriendsWith(
     for(auto itt = adjacentFriends.begin(); itt != adjacentFriends.end(); ++itt)
     {
         block_p->absorb(**itt);
+
+        block_p->removeLiberty(space_p);
     }
 
     d_blockMap.insert(block_p);
@@ -104,6 +106,8 @@ void Board::play(unsigned int i, unsigned int j, SpaceState::Value value)
     std::set<Block::Ptr> adjacentFriends;
     std::vector<Space::Ptr> newLiberties;
     Space::Ptr potentialKo_p;
+
+    space_p->setState(value);
 
     handleAdjacentSpace(
           adjacentFriends
@@ -140,8 +144,6 @@ void Board::play(unsigned int i, unsigned int j, SpaceState::Value value)
         , j - 1
         , space_p
     );
-
-    space_p->setState(value);
 
     linkAdjacentFriendsWith(adjacentFriends, newLiberties, space_p);
 

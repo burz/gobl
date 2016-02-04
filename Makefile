@@ -21,7 +21,7 @@ $(INCL)
 LDFLAGS = \
 $(LIBS)
 
-SRCS=$(shell find $(SRCDIRS) -iname '*.cpp')
+SRCS=$(shell find $(SRCDIRS) -maxdepth 1 -iname '*.cpp')
 OBJS=$(SRCS:%.cpp=%.o)
 
 NOTEST_OBJS=$(filter-out %.t.o,$(OBJS))
@@ -42,6 +42,10 @@ test:
 .PHONY: clean
 clean:
 	rm -f $(SRCDIRS:%=%/*.o)
+
+.PHONY: wc
+wc:
+	wc $(SRCS)
 
 %.t.o: %.t.cpp
 	$(CC) $(CFLAGS) -o $*.t.o $^ $(FLAGS) $(GTEST_INCL)

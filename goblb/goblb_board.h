@@ -63,10 +63,12 @@ class Board
     const Space::Ptr& space(unsigned int i, unsigned int j) const;
     SpaceState::Value state(unsigned int i, unsigned int j) const;
     Block::Ptr lookupBlock(unsigned int i, unsigned int j) const;
+    int score() const;
     const Space::Ptr& ko() const;
     SpaceState::Value nextMove() const;
 
     void print(std::ostream& stream) const;
+    void printBlockMap(std::ostream& stream) const;
 
   public:
     // OPERATORS
@@ -122,6 +124,12 @@ Block::Ptr Board::lookupBlock(unsigned int i, unsigned int j) const
 }
 
 inline
+int Board::score() const
+{
+    return d_score;
+}
+
+inline
 const Space::Ptr& Board::ko() const
 {
     return d_ko_p;
@@ -137,6 +145,12 @@ inline
 bool Board::operator!=(const Board& board)
 {
     return !(*this == board);
+}
+
+inline
+void Board::printBlockMap(std::ostream& stream) const
+{
+    d_blockMap.print(stream);
 }
 
 } // Close goblb
