@@ -43,9 +43,15 @@ test:
 clean:
 	rm -f $(SRCDIRS:%=%/*.o)
 
+ALL_SRCS=$(shell find $(SRCDIRS) -maxdepth 1 -iname '*.h') $(SRCS)
+
 .PHONY: wc
 wc:
-	wc $(SRCS)
+	wc $(ALL_SRCS)
+
+.PHONY: wct
+wct:
+	wc $(filter %.t.h %.t.cpp,$(ALL_SRCS))
 
 %.t.o: %.t.cpp
 	$(CC) $(CFLAGS) -o $*.t.o $^ $(FLAGS) $(GTEST_INCL)

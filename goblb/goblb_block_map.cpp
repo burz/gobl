@@ -48,14 +48,11 @@ void BlockMap::insert(const Block::Ptr& block_p)
       ; itt != block_p->members().end()
       ; ++itt)
     {
-        const Space::Ptr& space_p = *itt;
+        Coordinates coordinates((*itt)->i(), (*itt)->j());
 
-        d_map.erase(Coordinates(space_p->i(), space_p->j()));
+        d_map.erase(coordinates);
 
-        d_map.insert(Map::value_type(
-              Coordinates(space_p->i(), space_p->j())
-            , block_p
-        ));
+        d_map.insert(Map::value_type(coordinates, block_p));
     }
 }
 

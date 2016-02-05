@@ -22,6 +22,22 @@ void handleInput(goblb::Board& board, bool& black, const std::string& input)
         return;
     }
 
+    if(goblb::SpaceState::EMPTY != board.state(i, j))
+    {
+        std::cout << "There is already a stone at " << i
+                  << ' ' << j << std::endl;
+
+        return;
+    }
+
+    if(board.ko() && i == board.ko()->i() && j == board.ko()->j())
+    {
+        std::cout << "It is against the rules to play within a ko."
+                  << std::endl;
+
+        return;
+    }
+
     board.play(
           i
         , j
@@ -48,6 +64,13 @@ int main(int argc, char* argv[])
         handleInput(board, black, line);
 
         std::cout << std::endl << board << std::endl;
+
+        if(board.ko())
+        {
+            std::cout << "KO AT " << board.ko()->i()
+                      << ' ' << board.ko()->j()
+                      << std::endl;
+        }
 
         std::cout << (black ? "BLACK" : "WHITE")
                   << "'S TURN" << std::endl;
