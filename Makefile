@@ -1,7 +1,6 @@
 CC     = clang++ --std=c++11
 CFLAGS = -c -g -Wall -Werror
 
-GTEST_DIR  = $(shell echo $$GTEST_DIR)
 GTEST_INCL = -isystem $(GTEST_DIR)/include
 GTEST_LD   = -pthread -L$(GTEST_DIR) -lgtest
 
