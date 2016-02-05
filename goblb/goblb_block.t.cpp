@@ -3,6 +3,7 @@
 #include <goblb_block.h>
 
 #include <gtest/gtest.h>
+#include <sstream>
 
 namespace goblb {
 
@@ -102,6 +103,45 @@ TEST(Block, libs)
         EXPECT_EQ(2u, block.libs());
         block.removeLiberty(space_p);
         EXPECT_EQ(1u, block.libs());
+    }
+}
+
+TEST(Block, print)
+{
+    {
+        const char RESULT[] = "<<(0, 4)>, <>>";
+
+        Block block;
+        Space::Ptr space_p(new Space(0, 4, SpaceState::BLACK));
+        block.addMember(space_p);
+
+        std::ostringstream stream;
+        block.print(stream);
+        EXPECT_STREQ(RESULT, stream.str().c_str());
+    }
+    {
+        const char RESULT[] = "<<>, <(8, 9)>>";
+
+        Block block;
+        Space::Ptr space_p(new Space(8, 9));
+        block.addLiberty(space_p);
+
+        std::ostringstream stream;
+        block.print(stream);
+        EXPECT_STREQ(RESULT, stream.str().c_str());
+    }
+    {
+        const char RESULT[] = "<<(1, 2)>, <(3, 4)>>";
+
+        Block block;
+        Space::Ptr space_p(new Space(1, 2, SpaceState::BLACK));
+        block.addMember(space_p);
+        space_p.reset(new Space(3, 4));
+        block.addLiberty(space_p);
+
+        std::ostringstream stream;
+        block.print(stream);
+        EXPECT_STREQ(RESULT, stream.str().c_str());
     }
 }
 

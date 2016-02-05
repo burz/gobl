@@ -111,6 +111,40 @@ TEST(Board, equals)
     EXPECT_TRUE(board1 == board1);
 }
 
+TEST(Board, playGroupFriends)
+{
+    Board board;
+
+    board.play(6, 6, SpaceState::BLACK);
+
+    std::cout << board << std::endl;
+
+    Block::Ptr block_p = board.block(6, 6);
+    ASSERT_TRUE(static_cast<bool>(block_p));
+
+    std::cout << *block_p << std::endl;
+
+    EXPECT_EQ(4u, block_p->libs());
+
+    board.play(6, 7, SpaceState::BLACK);
+
+    std::cout << board << std::endl;
+
+    block_p = board.block(6, 6);
+
+    std::cout << *block_p << std::endl;
+
+    ASSERT_TRUE(static_cast<bool>(block_p));
+    EXPECT_EQ(6u, block_p->libs());
+
+    block_p = board.block(6, 7);
+
+    std::cout << *block_p << std::endl;
+
+    ASSERT_TRUE(static_cast<bool>(block_p));
+    EXPECT_EQ(6u, block_p->libs());
+}
+
 TEST(Board, nextMove)
 {
     Board board;

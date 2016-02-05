@@ -66,21 +66,19 @@ void Board::linkAdjacentFriendsWith(
 {
     Block::Ptr block_p(new Block());
 
-    block_p->addMember(space_p);
-
     for(auto itt = adjacentFriends.begin(); itt != adjacentFriends.end(); ++itt)
     {
         block_p->absorb(**itt);
-
-        block_p->removeLiberty(space_p);
     }
 
-    d_blockMap.insert(block_p);
+    block_p->addMember(space_p);
 
     for(auto itt = newLiberties.begin(); itt != newLiberties.end(); ++itt)
     {
         block_p->addLiberty(*itt);
     }
+
+    d_blockMap.insert(block_p);
 }
 
 Board::Board()

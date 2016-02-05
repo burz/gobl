@@ -44,11 +44,16 @@ class Block
     const std::set<Space::Ptr>& members() const;
     const std::set<Space::Ptr>& liberties() const;
 
+    void print(std::ostream& stream) const;
+
   public:
     // OPERATORS
     bool operator==(const Block& space) const;
     bool operator!=(const Block& space) const;
 };
+
+// FREE OPERATORS
+std::ostream& operator<<(std::ostream& stream, const Block& block);
 
 // INLINES
 inline
