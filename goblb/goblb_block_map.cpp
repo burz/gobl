@@ -50,6 +50,8 @@ void BlockMap::insert(const Block::Ptr& block_p)
     {
         const Space::Ptr& space_p = *itt;
 
+        d_map.erase(Coordinates(space_p->i(), space_p->j()));
+
         d_map.insert(Map::value_type(
               Coordinates(space_p->i(), space_p->j())
             , block_p

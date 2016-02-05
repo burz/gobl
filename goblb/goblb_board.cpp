@@ -68,6 +68,8 @@ void Board::linkAdjacentFriendsWith(
 
     for(auto itt = adjacentFriends.begin(); itt != adjacentFriends.end(); ++itt)
     {
+        (*itt)->removeLiberty(space_p);
+
         block_p->absorb(**itt);
     }
 
