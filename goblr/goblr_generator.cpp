@@ -2,6 +2,8 @@
 
 #include <goblr_generator.h>
 
+#include <set>
+
 namespace goblr {
 
 Matrix::Ptr Generator::ko(const goblb::Board& board)
@@ -18,9 +20,64 @@ Matrix::Ptr Generator::ko(const goblb::Board& board)
     return matrix_p;
 }
 
-MatrixGroup::Ptr Generator::liberties(const goblb::Board& board)
+MatrixGroup::Ptr Generator::liberties(
+      const goblb::Board& board
+    , goblb::SpaceState::Value perspective
+    , unsigned int levels
+)
 {
     MatrixGroup::Ptr matrixGroup_p(new MatrixGroup());
+
+    for(unsigned int i = 0; i < levels * 2; ++i)
+    {
+        matrixGroup_p->push(Matrix::Ptr(new Matrix(board.size())));
+    }
+
+    std::set<goblb::Block::Ptr> visitedBlocks;
+
+    for(unsigned int i = 0; i < board.size(); ++i)
+    {
+        for(unsigned int j = 0; j < board.size(); ++j)
+        {
+            goblb::Block::Ptr block_p = board.block(i, j);
+
+            if(!block_p || visitedBlocks.end() != visitedBlocks.find(block_p))
+            {
+                continue;
+            }
+
+            unsigned int pos;
+
+            if(perspective == block_p->state())
+            {
+                pos = 0;
+            }
+            else
+            {
+                pos = levels;
+            }
+
+            const unsigned int libs = block_p->libs();
+
+            if(libs > levels)
+            {
+                pos += levels - 1;
+            }
+            else
+            {
+                pos += libs;
+            }
+
+            for(auto itt = block_p->members().begin()
+              ; itt != block_p->members().end()
+              ; ++itt)
+            {
+                matrixGroup_p->get(pos)->set((*itt)->i(), (*itt)->j(), libs);
+            }
+
+            visitedBlocks.insert(block_p);
+        }
+    }
 
     return matrixGroup_p;
 }

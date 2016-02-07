@@ -79,6 +79,18 @@ TEST(Generator, ko)
 
 TEST(Generator, liberties)
 {
+    {
+        goblb::Board board;
+
+        MatrixGroup::Ptr matrixGroup_p
+        = Generator::liberties(
+              board
+            , goblb::SpaceState::BLACK
+            , 2
+        );
+
+        std::cout << *matrixGroup_p << std::endl;
+    }
 }
 
 TEST(Generator, representation)

@@ -4,7 +4,6 @@
 #include <goblb_board.h>
 
 #include <iomanip>
-#include <cassert>
 
 namespace goblb {
 
@@ -72,9 +71,6 @@ void BlockMap::remove(const Block::Ptr& block_p)
 
 Block::Ptr BlockMap::lookup(unsigned int i, unsigned int j) const
 {
-    assert(i < Board::SIZE);
-    assert(j < Board::SIZE);
-
     Block::Ptr block_p;
 
     Map::const_iterator pos = d_map.find(Coordinates(i, j));

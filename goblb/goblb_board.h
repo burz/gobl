@@ -24,6 +24,7 @@ class Board
 
   private:
     // DATA
+    const unsigned int                    d_size;
     std::vector<std::vector<Space::Ptr> > d_spaces;
     BlockMap                              d_blockMap;
     int                                   d_score;
@@ -49,7 +50,7 @@ class Board
 
   public:
     // CREATORS
-    Board();
+    Board(unsigned int size = SIZE);
 
   public:
     // MANIPULATORS
@@ -60,6 +61,7 @@ class Board
 
   public:
     // ACCESSORS
+    unsigned int size() const;
     const Space::Ptr& space(unsigned int i, unsigned int j) const;
     SpaceState::Value state(unsigned int i, unsigned int j) const;
     Block::Ptr block(unsigned int i, unsigned int j) const;
@@ -83,8 +85,8 @@ std::ostream& operator<<(std::ostream& stream, const Board& board);
 inline
 void Board::setState(unsigned int i, unsigned int j, SpaceState::Value value)
 {
-    assert(i < SIZE);
-    assert(j < SIZE);
+    assert(i < d_size);
+    assert(j < d_size);
 
     d_spaces[i][j]->setState(value);
 }
@@ -100,10 +102,16 @@ void Board::play(unsigned int i, unsigned int j)
 }
 
 inline
+unsigned int Board::size() const
+{
+    return d_size;
+}
+
+inline
 const Space::Ptr& Board::space(unsigned int i, unsigned int j) const
 {
-    assert(i < SIZE);
-    assert(j < SIZE);
+    assert(i < d_size);
+    assert(j < d_size);
 
     return d_spaces[i][j];
 }
@@ -111,8 +119,8 @@ const Space::Ptr& Board::space(unsigned int i, unsigned int j) const
 inline
 SpaceState::Value Board::state(unsigned int i, unsigned int j) const
 {
-    assert(i < SIZE);
-    assert(j < SIZE);
+    assert(i < d_size);
+    assert(j < d_size);
 
     return d_spaces[i][j]->state();
 }

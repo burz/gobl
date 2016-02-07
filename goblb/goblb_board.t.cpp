@@ -11,10 +11,12 @@ namespace goblb {
 TEST(Board, constructor)
 {
     Board board;
+    static const unsigned int size = Board::SIZE;
+    EXPECT_EQ(size, board.size());
 
-    for(unsigned int i = 0; i < Board::SIZE; ++i)
+    for(unsigned int i = 0; i < size; ++i)
     {
-        for(unsigned int j = 0; j < Board::SIZE; ++j)
+        for(unsigned int j = 0; j < size; ++j)
         {
             ASSERT_TRUE(static_cast<bool>(board.space(i, j)));
             EXPECT_EQ(SpaceState::EMPTY, board.space(i, j)->state());

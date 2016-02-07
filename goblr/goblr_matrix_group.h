@@ -27,8 +27,21 @@ class MatrixGroup
 
   public:
     // ACCESSORS
+    unsigned int size() const;
     const Matrix::Ptr& get(unsigned int i) const;
+
+    void print(std::ostream& stream) const;
 };
+
+// FREE OPERATORS
+std::ostream& operator<<(std::ostream& stream, const MatrixGroup& group);
+
+// INLINES
+inline
+unsigned int MatrixGroup::size() const
+{
+    return d_group.size();
+}
 
 inline
 void MatrixGroup::push(const Matrix::Ptr& matrix)

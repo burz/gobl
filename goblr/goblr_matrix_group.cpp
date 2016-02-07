@@ -4,4 +4,24 @@
 
 namespace goblr {
 
+void MatrixGroup::print(std::ostream& stream) const
+{
+    unsigned int count = 0;
+
+    for(auto itt = d_group.begin(); itt != d_group.end(); ++itt)
+    {
+        stream << "<< MATRIX " << count << std::endl << std::endl
+               << **itt << std::endl << ">>" << std::endl << std::endl;
+
+        ++count;
+    }
+}
+
+std::ostream& operator<<(std::ostream& stream, const MatrixGroup& group)
+{
+    group.print(stream);
+
+    return stream;
+}
+
 } // Close goblr

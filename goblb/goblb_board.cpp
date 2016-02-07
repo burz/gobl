@@ -15,7 +15,7 @@ void Board::handleAdjacentSpace(
     , const Space::Ptr& space_p
 )
 {
-    if(SIZE <= i || SIZE <= j)
+    if(d_size <= i || d_size <= j)
     {
         return;
     }
@@ -83,14 +83,15 @@ void Board::linkAdjacentFriendsWith(
     d_blockMap.insert(block_p);
 }
 
-Board::Board()
-: d_spaces(SIZE, std::vector<Space::Ptr>(SIZE))
+Board::Board(unsigned int size)
+: d_size(size)
+, d_spaces(d_size, std::vector<Space::Ptr>(d_size))
 , d_score(0)
 , d_nextMove(SpaceState::BLACK)
 {
-    for(unsigned int i = 0; i < SIZE; ++i)
+    for(unsigned int i = 0; i < d_size; ++i)
     {
-        for(unsigned int j = 0; j < SIZE; ++j)
+        for(unsigned int j = 0; j < d_size; ++j)
         {
             d_spaces[i][j].reset(new Space(i, j));
         }
@@ -163,14 +164,14 @@ void Board::play(unsigned int i, unsigned int j, SpaceState::Value value)
 
 void Board::print(std::ostream& stream) const
 {
-    for(unsigned int i = 1; i <= SIZE; i++)
+    for(unsigned int i = 1; i <= d_size; i++)
     {
-        const unsigned int k = SIZE - i;
+        const unsigned int k = d_size - i;
 
         stream << std::setw(2) << k
                << "  [ " << *d_spaces[k][0];
 
-        for(unsigned int j = 1; j < SIZE; ++j)
+        for(unsigned int j = 1; j < d_size; ++j)
         {
             stream << ", " << *d_spaces[k][j];
         }
@@ -180,7 +181,7 @@ void Board::print(std::ostream& stream) const
 
     stream << "     ";
 
-    for(unsigned int j = 0; j < SIZE; ++j)
+    for(unsigned int j = 0; j < d_size; ++j)
     {
         stream << "  " << std::setw(2) << j
                << "   ";
@@ -191,9 +192,9 @@ void Board::print(std::ostream& stream) const
 
 bool Board::operator==(const Board& board)
 {
-    for(unsigned int i = 0; i < SIZE; ++i)
+    for(unsigned int i = 0; i < d_size; ++i)
     {
-        for(unsigned int j = 0; j < SIZE; ++j)
+        for(unsigned int j = 0; j < d_size; ++j)
         {
             if(*d_spaces[i][j] != *board.d_spaces[i][j])
             {
