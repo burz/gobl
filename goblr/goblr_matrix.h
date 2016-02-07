@@ -7,6 +7,7 @@
 #endif
 
 #include <cassert>
+#include <iostream>
 #include <memory>
 
 namespace goblr {
@@ -28,13 +29,31 @@ class Matrix
     Matrix(unsigned int size = goblb::Board::SIZE);
 
   public:
+    // MANIPULATORS
+    void set(unsigned int i, unsigned int j, double value);
+
+  public:
     // ACCESSORS
-    double value(unsigned int i, unsigned int j) const;
+    double get(unsigned int i, unsigned int j) const;
+
+    void print(std::ostream& stream) const;
 };
+
+// FREE OPERATORS
+std::ostream& operator<<(std::ostream& stream, const Matrix& matrix);
 
 // INLINES
 inline
-double Matrix::value(unsigned int i, unsigned int j) const
+void Matrix::set(unsigned int i, unsigned int j, double value)
+{
+    assert(i < d_size);
+    assert(j < d_size);
+
+    d_matrix[i][j] = value;
+}
+
+inline
+double Matrix::get(unsigned int i, unsigned int j) const
 {
     assert(i < d_size);
     assert(j < d_size);
