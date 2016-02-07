@@ -27,7 +27,7 @@ class MatrixGroup
 
   public:
     // ACCESSORS
-    const Matrix::Ptr& matrix(unsigned int i) const;
+    const Matrix::Ptr& get(unsigned int i) const;
 };
 
 inline
@@ -37,7 +37,7 @@ void MatrixGroup::push(const Matrix::Ptr& matrix)
 }
 
 inline
-const Matrix::Ptr& MatrixGroup::matrix(unsigned int i) const
+const Matrix::Ptr& MatrixGroup::get(unsigned int i) const
 {
     assert(0 <= i && i < d_group.size());
 

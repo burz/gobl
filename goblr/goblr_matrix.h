@@ -34,6 +34,7 @@ class Matrix
 
   public:
     // ACCESSORS
+    unsigned int size() const;
     double get(unsigned int i, unsigned int j) const;
 
     void print(std::ostream& stream) const;
@@ -43,6 +44,12 @@ class Matrix
 std::ostream& operator<<(std::ostream& stream, const Matrix& matrix);
 
 // INLINES
+inline
+unsigned int Matrix::size() const
+{
+    return d_size;
+}
+
 inline
 void Matrix::set(unsigned int i, unsigned int j, double value)
 {

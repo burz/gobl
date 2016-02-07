@@ -11,6 +11,8 @@ TEST(Matrix, constructor)
 {
     {
         Matrix matrix;
+        const unsigned int size = goblb::Board::SIZE;
+        EXPECT_EQ(size, matrix.size());
 
         for(unsigned int i = 0; i < goblb::Board::SIZE; ++i)
         {
@@ -24,6 +26,7 @@ TEST(Matrix, constructor)
         const unsigned int size = 31;
 
         Matrix matrix(size);
+        EXPECT_EQ(size, matrix.size());
 
         for(unsigned int i = 0; i < size; ++i)
         {

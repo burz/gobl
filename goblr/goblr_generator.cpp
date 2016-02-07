@@ -8,6 +8,13 @@ Matrix::Ptr Generator::ko(const goblb::Board& board)
 {
     Matrix::Ptr matrix_p(new Matrix());
 
+    const goblb::Space::Ptr& ko_p = board.ko();
+
+    if(ko_p)
+    {
+        matrix_p->set(ko_p->i(), ko_p->j(), 1.0);
+    }
+
     return matrix_p;
 }
 
