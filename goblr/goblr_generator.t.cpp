@@ -130,9 +130,48 @@ TEST(Generator, liberties)
 
         std::cout << *group_p << std::endl;
 
+        {
+            Matrix matrix(4);
+            matrix.set(0, 0, 1.0);
+
+            EXPECT_EQ(matrix, *group_p->get(0));
+        }
         expectZeros(group_p->get(1));
+        {
+            Matrix matrix(4);
+            matrix.set(2, 2, 1.0);
+
+            EXPECT_EQ(matrix, *group_p->get(2));
+        }
         expectZeros(group_p->get(3));
+        {
+            Matrix matrix(4);
+            matrix.set(0, 1, 1.0);
+
+            EXPECT_EQ(matrix, *group_p->get(4));
+        }
         expectZeros(group_p->get(5));
+    }
+    {
+        goblb::Board board(4);
+
+        board.play(0, 0, goblb::SpaceState::WHITE);
+        board.play(0, 1, goblb::SpaceState::BLACK);
+        board.play(2, 2, goblb::SpaceState::WHITE);
+
+        std::cout << board << std::endl;
+
+        MatrixGroup::Ptr group_p
+        = Generator::liberties(
+              board
+            , goblb::SpaceState::WHITE
+            , 3
+        );
+
+        ASSERT_TRUE(static_cast<bool>(group_p));
+        ASSERT_EQ(6u, group_p->size());
+
+        std::cout << *group_p << std::endl;
 
         {
             Matrix matrix(4);
@@ -140,23 +179,93 @@ TEST(Generator, liberties)
 
             EXPECT_EQ(matrix, *group_p->get(0));
         }
+        expectZeros(group_p->get(1));
         {
             Matrix matrix(4);
             matrix.set(2, 2, 1.0);
 
             EXPECT_EQ(matrix, *group_p->get(2));
         }
+        expectZeros(group_p->get(3));
         {
             Matrix matrix(4);
             matrix.set(0, 1, 1.0);
 
             EXPECT_EQ(matrix, *group_p->get(4));
         }
+        expectZeros(group_p->get(5));
     }
 }
 
 TEST(Generator, representation)
 {
+    goblb::Board board;
+
+    {
+        MatrixGroup::Ptr group_p
+        = Generator::representation(
+              board
+            , goblb::SpaceState::BLACK
+            , 3
+        );
+        ASSERT_TRUE(static_cast<bool>(group_p));
+        ASSERT_EQ(7u, group_p->size());
+
+        for(unsigned int i = 0; i < group_p->size(); ++i)
+        {
+            expectZeros(group_p->get(i));
+        }
+    }
+
+    board.play(0, 1);
+    board.play(0, 2);
+    board.play(1, 0);
+    board.play(1, 1);
+    board.play(0, 0, goblb::SpaceState::WHITE);
+
+    std::cout << board << std::endl;
+
+    {
+        MatrixGroup::Ptr group_p
+        = Generator::representation(
+              board
+            , goblb::SpaceState::BLACK
+            , 3
+        );
+        ASSERT_TRUE(static_cast<bool>(group_p));
+        ASSERT_EQ(7u, group_p->size());
+
+        // liberty matrices
+        {
+            Matrix matrix(board.size());
+            matrix.set(1, 0, 1.0);
+
+            EXPECT_EQ(matrix, *group_p->get(0));
+        }
+        expectZeros(group_p->get(1));
+        expectZeros(group_p->get(2));
+        {
+            Matrix matrix(board.size());
+            matrix.set(0, 0, 1.0);
+
+            EXPECT_EQ(matrix, *group_p->get(3));
+        }
+        expectZeros(group_p->get(4));
+        {
+            Matrix matrix(board.size());
+            matrix.set(0, 2, 1.0);
+            matrix.set(1, 1, 1.0);
+
+            EXPECT_EQ(matrix, *group_p->get(5));
+        }
+        // ko matrix
+        {
+            Matrix matrix(board.size());
+            matrix.set(0, 1, 1.0);
+
+            EXPECT_EQ(matrix, *group_p->get(6));
+        }
+    }
 }
 
 } // Close goblr

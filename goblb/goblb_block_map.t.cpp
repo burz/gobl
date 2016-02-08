@@ -226,10 +226,10 @@ TEST(BlockMap, print)
               << stream.str() << std::endl;
 
     static const char MAP[] =
-        " 5  [  EMPTY    3B   EMPTY ]\n"
-        " 4  [    3B   EMPTY    3B  ]\n"
-        " 3  [  EMPTY    3B   EMPTY ]\n"
-        "         3      4      5";
+        "\n 5  [  EMPTY    3B   EMPTY ]\n"
+          " 4  [    3B   EMPTY    3B  ]\n"
+          " 3  [  EMPTY    3B   EMPTY ]\n"
+          "         3      4      5\n";
 
     std::cout << "!!! EXPECTED:" << std::endl
               << MAP << std::endl;

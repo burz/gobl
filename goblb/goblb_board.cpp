@@ -164,6 +164,8 @@ void Board::play(unsigned int i, unsigned int j, SpaceState::Value value)
 
 void Board::print(std::ostream& stream) const
 {
+    stream << std::endl;
+
     for(unsigned int i = 1; i <= d_size; i++)
     {
         const unsigned int k = d_size - i;

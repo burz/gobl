@@ -14,6 +14,8 @@ Matrix::Matrix(unsigned int size)
 
 void Matrix::print(std::ostream& stream) const
 {
+    stream << std::endl;
+
     for(unsigned int i = 1; i <= d_size; i++)
     {
         const unsigned int k = d_size - i;
@@ -37,6 +39,8 @@ void Matrix::print(std::ostream& stream) const
     {
         stream << "     " << std::setw(2) << j;
     }
+
+    stream << std::endl;
 }
 
 std::ostream& operator<<(std::ostream& stream, const Matrix& matrix)

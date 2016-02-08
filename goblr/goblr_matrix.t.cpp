@@ -67,10 +67,10 @@ TEST(Matrix, print)
 
     std::cout << stream.str() << std::endl;
 
-    const char result[] = " 2  [ 0.000, 0.000, 0.000 ]\n"
-                          " 1  [ 4.930, 9.340, 0.000 ]\n"
-                          " 0  [ 4.000, 3.456, 0.000 ]\n"
-                          "        0      1      2";
+    const char result[] = "\n 2  [ 0.000, 0.000, 0.000 ]\n"
+                            " 1  [ 4.930, 9.340, 0.000 ]\n"
+                            " 0  [ 4.000, 3.456, 0.000 ]\n"
+                            "        0      1      2\n";
 
     EXPECT_STREQ(result, stream.str().c_str());
 }

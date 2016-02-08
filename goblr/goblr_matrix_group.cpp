@@ -10,8 +10,7 @@ void MatrixGroup::print(std::ostream& stream) const
 
     for(auto itt = d_group.begin(); itt != d_group.end(); ++itt)
     {
-        stream << "<< MATRIX " << count << std::endl << std::endl
-               << **itt << std::endl << ">>" << std::endl << std::endl;
+        stream << "<< MATRIX " << count << **itt << ">>" << std::endl;
 
         ++count;
     }

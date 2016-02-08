@@ -77,6 +77,7 @@ TEST(Board, print)
     std::string line = lineStream.str();
 
     std::ostringstream expectedStream;
+    expectedStream << '\n';
     for(unsigned int i = 1; i <= Board::SIZE; ++i)
     {
         const unsigned int k = Board::SIZE - i;

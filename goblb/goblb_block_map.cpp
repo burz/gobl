@@ -85,6 +85,8 @@ Block::Ptr BlockMap::lookup(unsigned int i, unsigned int j) const
 
 void BlockMap::print(std::ostream& stream) const
 {
+    stream << std::endl;
+
     if(!d_map.empty())
     {
         unsigned int iMin = static_cast<unsigned int>(-1);
@@ -150,6 +152,8 @@ void BlockMap::print(std::ostream& stream) const
             stream << "     " << std::setw(2) << j;
         }
     }
+
+    stream << std::endl;
 }
 
 std::ostream& operator<<(std::ostream& stream, const BlockMap& blockMap)
