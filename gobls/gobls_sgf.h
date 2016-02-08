@@ -6,6 +6,7 @@
 #include <goblb_board.h>
 #endif
 
+#include <memory>
 #include <vector>
 
 namespace gobls {
@@ -15,6 +16,7 @@ class Sgf
   public:
     // TYPES
     typedef std::pair<unsigned int, unsigned int> Move;
+    typedef std::shared_ptr<Sgf>                  Ptr;
 
   public:
     // CLASS METHODS

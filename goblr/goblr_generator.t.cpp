@@ -233,6 +233,9 @@ TEST(Generator, representation)
             , 3
         );
         ASSERT_TRUE(static_cast<bool>(group_p));
+
+        std::cout << *group_p << std::endl;
+
         ASSERT_EQ(7u, group_p->size());
 
         // liberty matrices

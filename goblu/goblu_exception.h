@@ -19,9 +19,9 @@ class Exception : public std::runtime_error
     do {                                                \
         std::ostringstream goblu__stream;               \
         goblu__stream << "goblu::Exception thrown at "  \
-                      << __LINE__ << " in " << __FILE__ \
-                      << " with message \""             \
-                      << goblu__error_stream << '"';    \
+                      << __FILE__ << ':' << __LINE__    \
+                      << " with message '"              \
+                      << goblu__error_stream << "'";    \
         std::string goblu__error = goblu__stream.str(); \
         throw goblu::Exception(goblu__error);           \
     } while(0)
