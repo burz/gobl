@@ -75,4 +75,27 @@ TEST(Matrix, print)
     EXPECT_STREQ(result, stream.str().c_str());
 }
 
+TEST(Matrix, equals)
+{
+    Matrix matrix;
+    EXPECT_TRUE(matrix == matrix);
+    EXPECT_FALSE(matrix != matrix);
+
+    Matrix matrix2;
+    EXPECT_TRUE(matrix == matrix2);
+    EXPECT_FALSE(matrix != matrix2);
+
+    matrix2.set(0, 3, 1.0);
+    EXPECT_FALSE(matrix == matrix2);
+    EXPECT_TRUE(matrix != matrix2);
+
+    matrix.set(0, 3, 1.0);
+    EXPECT_TRUE(matrix == matrix2);
+    EXPECT_FALSE(matrix != matrix2);
+
+    matrix2.set(4, 3, 7.98);
+    EXPECT_FALSE(matrix == matrix2);
+    EXPECT_TRUE(matrix != matrix2);
+}
+
 } // Close goblr

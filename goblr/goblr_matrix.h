@@ -38,6 +38,11 @@ class Matrix
     double get(unsigned int i, unsigned int j) const;
 
     void print(std::ostream& stream) const;
+
+  public:
+    // OPERATORS
+    bool operator==(const Matrix& matrix) const;
+    bool operator!=(const Matrix& matrix) const;
 };
 
 // FREE OPERATORS
@@ -66,6 +71,18 @@ double Matrix::get(unsigned int i, unsigned int j) const
     assert(j < d_size);
 
     return d_matrix[i][j];
+}
+
+inline
+bool Matrix::operator==(const Matrix& matrix) const
+{
+    return d_matrix == matrix.d_matrix;
+}
+
+inline
+bool Matrix::operator!=(const Matrix& matrix) const
+{
+    return d_matrix != matrix.d_matrix;
 }
 
 } // Close goblr

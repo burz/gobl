@@ -10,21 +10,40 @@ namespace goblb {
 
 TEST(Board, constructor)
 {
-    Board board;
-    static const unsigned int size = Board::SIZE;
-    EXPECT_EQ(size, board.size());
-
-    for(unsigned int i = 0; i < size; ++i)
     {
-        for(unsigned int j = 0; j < size; ++j)
-        {
-            ASSERT_TRUE(static_cast<bool>(board.space(i, j)));
-            EXPECT_EQ(SpaceState::EMPTY, board.space(i, j)->state());
-        }
-    }
+        Board board;
+        const unsigned int size = Board::SIZE;
+        EXPECT_EQ(size, board.size());
 
-    EXPECT_EQ(SpaceState::BLACK, board.nextMove());
-    EXPECT_EQ(0, board.score());
+        for(unsigned int i = 0; i < size; ++i)
+        {
+            for(unsigned int j = 0; j < size; ++j)
+            {
+                ASSERT_TRUE(static_cast<bool>(board.space(i, j)));
+                EXPECT_EQ(SpaceState::EMPTY, board.space(i, j)->state());
+            }
+        }
+
+        EXPECT_EQ(SpaceState::BLACK, board.nextMove());
+        EXPECT_EQ(0, board.score());
+    }
+    {
+        const unsigned int size = 9;
+        Board board(size);
+        EXPECT_EQ(size, board.size());
+
+        for(unsigned int i = 0; i < size; ++i)
+        {
+            for(unsigned int j = 0; j < size; ++j)
+            {
+                ASSERT_TRUE(static_cast<bool>(board.space(i, j)));
+                EXPECT_EQ(SpaceState::EMPTY, board.space(i, j)->state());
+            }
+        }
+
+        EXPECT_EQ(SpaceState::BLACK, board.nextMove());
+        EXPECT_EQ(0, board.score());
+    }
 }
 
 TEST(Board, setState)

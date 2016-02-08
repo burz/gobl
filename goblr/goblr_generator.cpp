@@ -57,22 +57,20 @@ MatrixGroup::Ptr Generator::liberties(
                 pos = levels;
             }
 
-            const unsigned int libs = block_p->libs();
-
-            if(libs > levels)
+            if(block_p->libs() > levels)
             {
                 pos += levels - 1;
             }
             else
             {
-                pos += libs;
+                pos += block_p->libs() - 1;
             }
 
             for(auto itt = block_p->members().begin()
               ; itt != block_p->members().end()
               ; ++itt)
             {
-                matrixGroup_p->get(pos)->set((*itt)->i(), (*itt)->j(), libs);
+                matrixGroup_p->get(pos)->set((*itt)->i(), (*itt)->j(), 1.0);
             }
 
             visitedBlocks.insert(block_p);
