@@ -31,7 +31,7 @@ class TokenType
 };
 
 // FREE OPERATORS
-std::ostream& operator<<(std::ostream& stream, const TokenType& type);
+std::ostream& operator<<(std::ostream& stream, TokenType::Value type);
 
 } // Close gobls
 

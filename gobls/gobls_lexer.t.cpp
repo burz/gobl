@@ -243,4 +243,25 @@ TEST(Lexer, tryNext)
     }
 }
 
+TEST(Lexer, expect)
+{
+    {
+        const char input[] = "";
+        Lexer lexer(input);
+        EXPECT_THROW(lexer.expect(TokenType::SEMI), goblu::Exception);
+    }
+    {
+        const char input[] = "()";
+        Lexer lexer(input);
+        EXPECT_THROW(lexer.expect(TokenType::SEMI), goblu::Exception);
+    }
+    {
+        const char input[] = ";";
+        Lexer lexer(input);
+        EXPECT_NO_THROW(lexer.expect(TokenType::SEMI));
+        Token token = lexer.next();
+        EXPECT_EQ(TokenType::END, token.type());
+    }
+}
+
 } // Close gobls

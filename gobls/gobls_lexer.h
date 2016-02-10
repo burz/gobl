@@ -27,6 +27,7 @@ class Lexer
     // MANIPULATORS
     Token next();
     Token tryNext();
+    void expect(TokenType::Value type);
 };
 
 } // Close gobls

@@ -68,6 +68,7 @@ Lexer::Lexer(const char* input)
 : d_input(input)
 , d_idStart(0)
 {
+    assert(d_input);
 }
 
 #define GOBLS_NEXT_RETURN(gobls__type)                   \
@@ -86,8 +87,6 @@ Lexer::Lexer(const char* input)
 
 Token Lexer::next()
 {
-    assert(d_input);
-
     const char* pos = skipWhitespace(d_input);
 
     if(d_input != pos)
@@ -148,6 +147,16 @@ Token Lexer::tryNext()
     d_input = start;
 
     return result;
+}
+
+void Lexer::expect(TokenType::Value type)
+{
+    Token result = next();
+
+    if(type != result.type())
+    {
+        THROW_GOBL("Expected a '" << type << "'");
+    }
 }
 
 } // Close gobls

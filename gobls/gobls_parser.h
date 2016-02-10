@@ -6,15 +6,16 @@
 #include <gobls_sgf.h>
 #endif
 
+#ifndef INCLUDED_GOBLS_LEXER
+#include <gobls_lexer.h>
+#endif
+
 #include <string>
 
 namespace gobls {
 
 class Parser
 {
-  public:
-    // CLASS METHODS
-    static Sgf::Ptr parse(const std::string& file);
 };
 
 } // Close gobls
