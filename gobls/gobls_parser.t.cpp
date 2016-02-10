@@ -112,4 +112,88 @@ TEST(Parser, parseDataPoint)
     }
 }
 
+TEST(Parser, parseDataPoints)
+{
+    {
+        const char input[] = "";
+        Lexer lexer(input);
+        Parser::DataPoints dataPoints;
+        ASSERT_NO_THROW(dataPoints = Parser::parseDataPoints(lexer));
+        EXPECT_EQ(0u, dataPoints.size());
+    }
+    {
+        //                    0123
+        const char input[] = "A[U]";
+        Lexer lexer(input);
+        Parser::DataPoints dataPoints;
+        ASSERT_NO_THROW(dataPoints = Parser::parseDataPoints(lexer));
+        ASSERT_EQ(1u, dataPoints.size());
+        const Parser::DataPoint& dataPoint = *dataPoints.begin();
+        EXPECT_EQ(std::string(input, input + 1), dataPoint.first);
+        ASSERT_EQ(1u, dataPoint.second.size());
+        const Token& token = dataPoint.second[0];
+        EXPECT_EQ(TokenType::ID, token.type());
+        EXPECT_EQ(input + 2, token.begin());
+        EXPECT_EQ(input + 3, token.end());
+    }
+    {
+        const char input[] = "A[U]A[";
+        Lexer lexer(input);
+        Parser::DataPoints dataPoints;
+        EXPECT_THROW(dataPoints = Parser::parseDataPoints(lexer), goblu::Exception);
+    }
+    {
+        //                    0123456789012345 678901234567890123
+        const char input[] = "  A[U]B[Ijksld] \nC[T][2] 2444[ksf]";
+        Lexer lexer(input);
+        Parser::DataPoints dataPoints;
+        ASSERT_NO_THROW(dataPoints = Parser::parseDataPoints(lexer));
+        ASSERT_EQ(4u, dataPoints.size());
+        {
+            Parser::DataPoints::const_iterator pos = dataPoints.find("A");
+            ASSERT_NE(dataPoints.end(), pos);
+            EXPECT_EQ(std::string(input + 2, input + 3), pos->first);
+            ASSERT_EQ(1u, pos->second.size());
+            const Token& token = pos->second[0];
+            EXPECT_EQ(TokenType::ID, token.type());
+            EXPECT_EQ(input + 4, token.begin());
+            EXPECT_EQ(input + 5, token.end());
+        }
+        {
+            Parser::DataPoints::const_iterator pos = dataPoints.find("B");
+            ASSERT_NE(dataPoints.end(), pos);
+            EXPECT_EQ(std::string(input + 6, input + 7), pos->first);
+            ASSERT_EQ(1u, pos->second.size());
+            const Token& token = pos->second[0];
+            EXPECT_EQ(TokenType::ID, token.type());
+            EXPECT_EQ(input + 8, token.begin());
+            EXPECT_EQ(input + 14, token.end());
+        }
+        {
+            Parser::DataPoints::const_iterator pos = dataPoints.find("C");
+            ASSERT_NE(dataPoints.end(), pos);
+            EXPECT_EQ(std::string(input + 17, input + 18), pos->first);
+            ASSERT_EQ(2u, pos->second.size());
+            Token token = pos->second[0];
+            EXPECT_EQ(TokenType::ID, token.type());
+            EXPECT_EQ(input + 19, token.begin());
+            EXPECT_EQ(input + 20, token.end());
+            token = pos->second[1];
+            EXPECT_EQ(TokenType::ID, token.type());
+            EXPECT_EQ(input + 22, token.begin());
+            EXPECT_EQ(input + 23, token.end());
+        }
+        {
+            Parser::DataPoints::const_iterator pos = dataPoints.find("2444");
+            ASSERT_NE(dataPoints.end(), pos);
+            EXPECT_EQ(std::string(input + 25, input + 29), pos->first);
+            ASSERT_EQ(1u, pos->second.size());
+            const Token& token = pos->second[0];
+            EXPECT_EQ(TokenType::ID, token.type());
+            EXPECT_EQ(input + 30, token.begin());
+            EXPECT_EQ(input + 33, token.end());
+        }
+    }
+}
+
 } // Close gobls
