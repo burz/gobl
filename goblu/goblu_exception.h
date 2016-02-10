@@ -2,9 +2,9 @@
 #ifndef INCLUDED_GOBLU_EXCEPTION
 #define INCLUDED_GOBLU_EXCEPTION
 
+#include <sstream>
 #include <stdexcept>
 #include <string>
-#include <sstream>
 
 namespace goblu {
 

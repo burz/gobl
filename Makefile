@@ -37,7 +37,7 @@ gobl_gtest.tsk: $(TEST_OBJS)
 
 .PHONY: test
 test:
-	./gobl_gtest.tsk
+	./gobl_gtest.tsk --gtest_color=yes | tee $@.log
 
 .PHONY: clean
 clean:
