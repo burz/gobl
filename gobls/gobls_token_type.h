@@ -18,6 +18,7 @@ class TokenType
         , ID       = 3
         , RBRACKET = 4
         , LBRACKET = 5
+        , SEMI     = 6
     };
 
   public:

@@ -20,6 +20,8 @@ const char* TokenType::toString(Value type)
         return "RBRACKET";
     case LBRACKET:
         return "LBRACKET";
+    case SEMI:
+        return "SEMI";
     };
 }
 

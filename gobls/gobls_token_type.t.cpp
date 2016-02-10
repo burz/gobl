@@ -14,6 +14,7 @@ TEST(TokenType, toString)
     EXPECT_STREQ("ID", TokenType::toString(TokenType::ID));
     EXPECT_STREQ("LBRACKET", TokenType::toString(TokenType::LBRACKET));
     EXPECT_STREQ("RBRACKET", TokenType::toString(TokenType::RBRACKET));
+    EXPECT_STREQ("SEMI", TokenType::toString(TokenType::SEMI));
 }
 
 } // Close gobls

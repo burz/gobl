@@ -70,7 +70,7 @@ Lexer::Lexer(const char* input)
 {
 }
 
-#define GOBLS_RETURN_NEXT_TYPE(gobls__type)              \
+#define GOBLS_NEXT_RETURN(gobls__type)                   \
     if(d_idStart)                                        \
     {                                                    \
         Token result(TokenType::ID, d_idStart, d_input); \
@@ -86,26 +86,44 @@ Lexer::Lexer(const char* input)
 
 Token Lexer::next()
 {
-    if(0 == d_input)
-    {
-        GOBLS_RETURN_NEXT_TYPE(TokenType::END);
-    }
+    assert(d_input);
 
-    d_input = skipWhitespace(d_input);
+    const char* pos = skipWhitespace(d_input);
+
+    if(d_input != pos)
+    {
+        if(0 != d_idStart)
+        {
+            Token result(TokenType::ID, d_idStart, d_input);
+
+            d_idStart = 0;
+            d_input   = pos;
+
+            return result;
+        }
+
+        d_input = pos;
+    }
 
     switch(*d_input)
     {
+    case 0:
+        GOBLS_NEXT_RETURN(TokenType::END);
+        break;
     case '(':
-        GOBLS_RETURN_NEXT_TYPE(TokenType::LPARENS);
+        GOBLS_NEXT_RETURN(TokenType::LPARENS);
         break;
     case ')':
-        GOBLS_RETURN_NEXT_TYPE(TokenType::RPARENS);
+        GOBLS_NEXT_RETURN(TokenType::RPARENS);
         break;
     case '[':
-        GOBLS_RETURN_NEXT_TYPE(TokenType::LBRACKET);
+        GOBLS_NEXT_RETURN(TokenType::LBRACKET);
         break;
     case ']':
-        GOBLS_RETURN_NEXT_TYPE(TokenType::RBRACKET);
+        GOBLS_NEXT_RETURN(TokenType::RBRACKET);
+        break;
+    case ';':
+        GOBLS_NEXT_RETURN(TokenType::SEMI);
         break;
     default:
         break;
