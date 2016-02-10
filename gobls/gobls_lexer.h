@@ -17,6 +17,7 @@ class Lexer
 
   private:
     const char* d_input;
+    const char* d_saved;
     const char* d_idStart;
 
   public:
@@ -27,8 +28,16 @@ class Lexer
     // MANIPULATORS
     Token next();
     Token tryNext();
+    void advance();
     void expect(TokenType::Value type);
 };
+
+// INLINES
+inline
+void Lexer::advance()
+{
+    d_input = d_saved;
+}
 
 } // Close gobls
 

@@ -243,6 +243,25 @@ TEST(Lexer, tryNext)
     }
 }
 
+TEST(Lexer, advance)
+{
+    const char input[] = "qq\n( ; ";
+    Lexer lexer(input);
+    Token token = lexer.tryNext();
+    EXPECT_EQ(TokenType::ID, token.type());
+    EXPECT_EQ(input + 0, token.begin());
+    EXPECT_EQ(input + 2, token.end());
+    lexer.advance();
+    token = lexer.tryNext();
+    EXPECT_EQ(TokenType::LPARENS, token.type());
+    lexer.advance();
+    token = lexer.tryNext();
+    EXPECT_EQ(TokenType::SEMI, token.type());
+    lexer.advance();
+    token = lexer.tryNext();
+    EXPECT_EQ(TokenType::END, token.type());
+}
+
 TEST(Lexer, expect)
 {
     {

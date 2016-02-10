@@ -11,11 +11,23 @@
 #endif
 
 #include <string>
+#include <vector>
 
 namespace gobls {
 
 class Parser
 {
+  public:
+    // TYPES
+    typedef std::vector<Token>           Data;
+    typedef std::pair<std::string, Data> DataPoint;
+    typedef std::map<std::string, Data>  DataPoints;
+
+  public:
+    // CLASS METHODS
+    static void parseValueAndBracket(Data& data, Lexer& lexer);
+    static bool parseDataPoint(DataPoint& dataPoint, Lexer& lexer);
+    static DataPoints parseDataPoints(Lexer& lexer);
 };
 
 } // Close gobls

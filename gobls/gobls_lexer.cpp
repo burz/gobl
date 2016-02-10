@@ -66,6 +66,7 @@ const char* Lexer::skipParentheses(const char* input)
 
 Lexer::Lexer(const char* input)
 : d_input(input)
+, d_saved(0)
 , d_idStart(0)
 {
     assert(d_input);
@@ -144,6 +145,7 @@ Token Lexer::tryNext()
 
     Token result = next();
 
+    d_saved = d_input;
     d_input = start;
 
     return result;
