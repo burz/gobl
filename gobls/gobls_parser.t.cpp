@@ -196,4 +196,44 @@ TEST(Parser, parseDataPoints)
     }
 }
 
+TEST(Parser, handlesWhitespaceWithinBrackets)
+{
+    //                    012345678 90123456
+    const char input[] = "A[Hello, \nworld!]";
+    Lexer lexer(input);
+
+    Parser::DataPoint dataPoint;
+    bool success = false;
+    ASSERT_NO_THROW(success = Parser::parseDataPoint(dataPoint, lexer));
+    EXPECT_TRUE(success);
+
+    EXPECT_EQ(std::string(input, input + 1), dataPoint.first);
+
+    ASSERT_EQ(1u, dataPoint.second.size());
+    const Token& token = *dataPoint.second.begin();
+    EXPECT_EQ(TokenType::ID, token.type());
+    EXPECT_EQ(input + 2, token.begin());
+    EXPECT_EQ(input + 16, token.end());
+}
+
+TEST(Parser, handlesEscapedComments)
+{
+    //                    012345678 901234567
+    const char input[] = "A[Hello, \\]world!]";
+    Lexer lexer(input);
+
+    Parser::DataPoint dataPoint;
+    bool success = false;
+    ASSERT_NO_THROW(success = Parser::parseDataPoint(dataPoint, lexer));
+    EXPECT_TRUE(success);
+
+    EXPECT_EQ(std::string(input, input + 1), dataPoint.first);
+
+    ASSERT_EQ(1u, dataPoint.second.size());
+    const Token& token = *dataPoint.second.begin();
+    EXPECT_EQ(TokenType::ID, token.type());
+    EXPECT_EQ(input + 2, token.begin());
+    EXPECT_EQ(input + 17, token.end());
+}
+
 } // Close gobls
