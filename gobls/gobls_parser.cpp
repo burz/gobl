@@ -14,9 +14,25 @@ void Parser::parseValueAndBracket(Data& data, Lexer& lexer)
         THROW_GOBL("Expected a value between the brackets.");
     }
 
-    data.push_back(value);
+    Token max;
+    for(Token token = lexer.tryNext()
+      ; TokenType::ID == token.type()
+      ; token = lexer.tryNext())
+    {
+        max = token;
 
-    lexer.advance();
+        lexer.advance();
+    }
+
+    if(TokenType::ID == max.type())
+    {
+        data.push_back(Token(TokenType::ID, value.begin(), max.end()));
+    }
+    else
+    {
+        data.push_back(value);
+    }
+
     lexer.expect(TokenType::RBRACKET);
 }
 

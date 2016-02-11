@@ -283,4 +283,15 @@ TEST(Lexer, expect)
     }
 }
 
+TEST(Lexer, allowsEscapedRBracket)
+{
+    //                    012 34567890 1234567
+    const char input[] = "wow\\]that's\\]nice";
+    Lexer lexer(input);
+    Token token = lexer.next();
+    EXPECT_EQ(TokenType::ID, token.type());
+    EXPECT_EQ(input + 0, token.begin());
+    EXPECT_EQ(input + 17, token.end());
+}
+
 } // Close gobls

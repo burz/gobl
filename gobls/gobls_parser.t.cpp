@@ -218,8 +218,8 @@ TEST(Parser, handlesWhitespaceWithinBrackets)
 
 TEST(Parser, handlesEscapedComments)
 {
-    //                    012345678 901234567
-    const char input[] = "A[Hello, \\]world!]";
+    //                    01234567 890123456
+    const char input[] = "A[Hello,\\]world!]";
     Lexer lexer(input);
 
     Parser::DataPoint dataPoint;
@@ -233,7 +233,7 @@ TEST(Parser, handlesEscapedComments)
     const Token& token = *dataPoint.second.begin();
     EXPECT_EQ(TokenType::ID, token.type());
     EXPECT_EQ(input + 2, token.begin());
-    EXPECT_EQ(input + 17, token.end());
+    EXPECT_EQ(input + 16, token.end());
 }
 
 } // Close gobls

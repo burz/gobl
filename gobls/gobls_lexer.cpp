@@ -58,6 +58,7 @@ const char* Lexer::skipParentheses(const char* input)
         default:
             break;
         }
+
         ++input;
     }
 
@@ -125,18 +126,27 @@ Token Lexer::next()
     case ';':
         GOBLS_NEXT_RETURN(TokenType::SEMI);
         break;
+    case '\\':
+        if(0 == d_idStart)
+        {
+            d_idStart = d_input;
+        }
+        if(']' == *(d_input + 1))
+        {
+            ++d_input;
+        }
+        ++d_input;
+        return next();
+        break;
     default:
+        if(0 == d_idStart)
+        {
+            d_idStart = d_input;
+        }
+        ++d_input;
+        return next();
         break;
     }
-
-    if(0 == d_idStart)
-    {
-        d_idStart = d_input;
-    }
-
-    ++d_input;
-
-    return next();
 }
 
 Token Lexer::tryNext()
