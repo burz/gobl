@@ -262,7 +262,7 @@ TEST(Parser, parseGame)
         const char input[] = "(;A[Hello]B[THERE])";
         Lexer lexer(input);
         Sgf::Ptr sgf_p;
-        EXPECT_NO_THROW(sgf_p = Parser::parseGame(lexer));
+        ASSERT_NO_THROW(sgf_p = Parser::parseGame(lexer));
 
         std::cout << *sgf_p << std::endl;
 
@@ -272,16 +272,36 @@ TEST(Parser, parseGame)
     {
         const char input[] = "(;\n"
                              "  KM[6.7]\n"
-                             "; B[aa]\n"
+                             "; B[aa]C[ lolol lol\\][\\]\n]\n"
                              "; W[hb]\n"
                              ")";
         Lexer lexer(input);
         Sgf::Ptr sgf_p;
-        EXPECT_NO_THROW(sgf_p = Parser::parseGame(lexer));
+        ASSERT_NO_THROW(sgf_p = Parser::parseGame(lexer));
 
         std::cout << *sgf_p << std::endl;
 
         EXPECT_EQ("6.7", sgf_p->lookup("KM"));
+
+        Sgf::Iterator itt = sgf_p->begin();
+
+        ASSERT_NE(sgf_p->end(), itt);
+        EXPECT_EQ(0u, itt->first);  // a
+        EXPECT_EQ(0u, itt->second); // a
+        ++itt;
+        ASSERT_NE(sgf_p->end(), itt);
+        EXPECT_EQ(7u, itt->first);  // h
+        EXPECT_EQ(1u, itt->second); // b
+    }
+    {
+        const char input[] = "(;A[B];W[aa]";
+        Lexer lexer(input);
+        EXPECT_THROW(Parser::parseGame(lexer), goblu::Exception);
+    }
+    {
+        const char input[] = "(;A[B];Q[aa])";
+        Lexer lexer(input);
+        EXPECT_THROW(Parser::parseGame(lexer), goblu::Exception);
     }
 }
 
