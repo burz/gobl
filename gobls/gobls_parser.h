@@ -30,6 +30,8 @@ class Parser
     static DataPoints parseDataPoints(Lexer& lexer);
 
     static Sgf::Ptr parseGame(Lexer& lexer);
+
+    static Sgf::Ptr parseFile(const std::string& fileName);
 };
 
 } // Close gobls

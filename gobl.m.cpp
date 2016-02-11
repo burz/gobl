@@ -2,6 +2,7 @@
 
 #include <goblb_board.h>
 #include <goblb_space_state.h>
+#include <gobls_parser.h>
 
 #include <iostream>
 #include <sstream>
@@ -51,6 +52,15 @@ void handleInput(goblb::Board& board, bool& black, const std::string& input)
 
 int main(int argc, char* argv[])
 {
+    if(argc > 2 && "--parse" == std::string(argv[1]))
+    {
+        gobls::Sgf::Ptr sgf = gobls::Parser::parseFile(argv[2]);
+
+        std::cout << "PARSED" << std::endl << *sgf << std::endl;
+
+        return 0;
+    }
+
     goblb::Board board;
     std::string line;
 

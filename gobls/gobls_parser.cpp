@@ -3,6 +3,9 @@
 #include <gobls_parser.h>
 #include <goblu_exception.h>
 
+#include <fstream>
+#include <streambuf>
+
 namespace gobls {
 
 namespace {
@@ -141,6 +144,27 @@ Sgf::Ptr Parser::parseGame(Lexer& lexer)
     lexer.expect(TokenType::RPARENS);
 
     return sgf_p;
+}
+
+Sgf::Ptr Parser::parseFile(const std::string& fileName)
+{
+    std::ifstream file(fileName);
+    std::string str;
+
+    file.seekg(0, std::ios::end);
+
+    str.reserve(file.tellg());
+
+    file.seekg(0, std::ios::beg);
+
+    str.assign(
+          std::istreambuf_iterator<char>(file)
+        , std::istreambuf_iterator<char>()
+    );
+
+    Lexer lexer(str.c_str());
+
+    return parseGame(lexer);
 }
 
 } // Close gobls
