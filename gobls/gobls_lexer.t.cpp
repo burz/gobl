@@ -75,76 +75,76 @@ TEST(Lexer, next)
         Lexer lexer(input);
         Token token = lexer.next();
         EXPECT_EQ(TokenType::END, token.type());
-        EXPECT_EQ(static_cast<const char*>(0), token.begin());
-        EXPECT_EQ(static_cast<const char*>(0), token.end());
+        EXPECT_EQ(input + sizeof(input) - 1, token.begin());
+        EXPECT_EQ(input + sizeof(input), token.end());
     }
     {
         const char input[] = " \t\n\v\f";
         Lexer lexer(input);
         Token token = lexer.next();
         EXPECT_EQ(TokenType::END, token.type());
-        EXPECT_EQ(static_cast<const char*>(0), token.begin());
-        EXPECT_EQ(static_cast<const char*>(0), token.end());
+        EXPECT_EQ(input + sizeof(input) - 1, token.begin());
+        EXPECT_EQ(input + sizeof(input), token.end());
     }
     {
         const char input[] = "(";
         Lexer lexer(input);
         Token token = lexer.next();
         EXPECT_EQ(TokenType::LPARENS, token.type());
-        EXPECT_EQ(static_cast<const char*>(0), token.begin());
-        EXPECT_EQ(static_cast<const char*>(0), token.end());
+        EXPECT_EQ(input, token.begin());
+        EXPECT_EQ(input + 1, token.end());
         token = lexer.next();
         EXPECT_EQ(TokenType::END, token.type());
-        EXPECT_EQ(static_cast<const char*>(0), token.begin());
-        EXPECT_EQ(static_cast<const char*>(0), token.end());
+        EXPECT_EQ(input + sizeof(input) - 1, token.begin());
+        EXPECT_EQ(input + sizeof(input), token.end());
     }
     {
         const char input[] = ")";
         Lexer lexer(input);
         Token token = lexer.next();
         EXPECT_EQ(TokenType::RPARENS, token.type());
-        EXPECT_EQ(static_cast<const char*>(0), token.begin());
-        EXPECT_EQ(static_cast<const char*>(0), token.end());
+        EXPECT_EQ(input, token.begin());
+        EXPECT_EQ(input + 1, token.end());
         token = lexer.next();
         EXPECT_EQ(TokenType::END, token.type());
-        EXPECT_EQ(static_cast<const char*>(0), token.begin());
-        EXPECT_EQ(static_cast<const char*>(0), token.end());
+        EXPECT_EQ(input + sizeof(input) - 1, token.begin());
+        EXPECT_EQ(input + sizeof(input), token.end());
     }
     {
         const char input[] = "[";
         Lexer lexer(input);
         Token token = lexer.next();
         EXPECT_EQ(TokenType::LBRACKET, token.type());
-        EXPECT_EQ(static_cast<const char*>(0), token.begin());
-        EXPECT_EQ(static_cast<const char*>(0), token.end());
+        EXPECT_EQ(input, token.begin());
+        EXPECT_EQ(input + 1, token.end());
         token = lexer.next();
         EXPECT_EQ(TokenType::END, token.type());
-        EXPECT_EQ(static_cast<const char*>(0), token.begin());
-        EXPECT_EQ(static_cast<const char*>(0), token.end());
+        EXPECT_EQ(input + sizeof(input) - 1, token.begin());
+        EXPECT_EQ(input + sizeof(input), token.end());
     }
     {
         const char input[] = "]";
         Lexer lexer(input);
         Token token = lexer.next();
         EXPECT_EQ(TokenType::RBRACKET, token.type());
-        EXPECT_EQ(static_cast<const char*>(0), token.begin());
-        EXPECT_EQ(static_cast<const char*>(0), token.end());
+        EXPECT_EQ(input, token.begin());
+        EXPECT_EQ(input + 1, token.end());
         token = lexer.next();
         EXPECT_EQ(TokenType::END, token.type());
-        EXPECT_EQ(static_cast<const char*>(0), token.begin());
-        EXPECT_EQ(static_cast<const char*>(0), token.end());
+        EXPECT_EQ(input + sizeof(input) - 1, token.begin());
+        EXPECT_EQ(input + sizeof(input), token.end());
     }
     {
         const char input[] = ";";
         Lexer lexer(input);
         Token token = lexer.next();
         EXPECT_EQ(TokenType::SEMI, token.type());
-        EXPECT_EQ(static_cast<const char*>(0), token.begin());
-        EXPECT_EQ(static_cast<const char*>(0), token.end());
+        EXPECT_EQ(input, token.begin());
+        EXPECT_EQ(input + 1, token.end());
         token = lexer.next();
         EXPECT_EQ(TokenType::END, token.type());
-        EXPECT_EQ(static_cast<const char*>(0), token.begin());
-        EXPECT_EQ(static_cast<const char*>(0), token.end());
+        EXPECT_EQ(input + sizeof(input) - 1, token.begin());
+        EXPECT_EQ(input + sizeof(input), token.end());
     }
     {
         const char input[] = "hello";
@@ -155,8 +155,8 @@ TEST(Lexer, next)
         EXPECT_EQ(GOBLS_END(input), token.end());
         token = lexer.next();
         EXPECT_EQ(TokenType::END, token.type());
-        EXPECT_EQ(static_cast<const char*>(0), token.begin());
-        EXPECT_EQ(static_cast<const char*>(0), token.end());
+        EXPECT_EQ(input + sizeof(input) - 1, token.begin());
+        EXPECT_EQ(input + sizeof(input), token.end());
     }
     {
         //                    01 2 34567890

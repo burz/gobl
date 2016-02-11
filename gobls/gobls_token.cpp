@@ -15,4 +15,11 @@ Token::Token(
 {
 }
 
+std::ostream& operator<<(std::ostream& stream, const Token& token)
+{
+    stream << token.type();
+
+    return stream;
+}
+
 } // Close gobls

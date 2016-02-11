@@ -28,6 +28,8 @@ class Parser
     static void parseValueAndBracket(Data& data, Lexer& lexer);
     static bool parseDataPoint(DataPoint& dataPoint, Lexer& lexer);
     static DataPoints parseDataPoints(Lexer& lexer);
+
+    static Sgf::Ptr parseGame(Lexer& lexer);
 };
 
 } // Close gobls

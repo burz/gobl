@@ -7,24 +7,32 @@ namespace gobls {
 
 void Parser::parseValueAndBracket(Data& data, Lexer& lexer)
 {
-    Token value = lexer.tryNext();
+    Token value = lexer.next();
 
-    if(TokenType::ID != value.type())
+    if(TokenType::RBRACKET == value.type()
+    || TokenType::END      == value.type())
     {
         THROW_GOBL("Expected a value between the brackets.");
     }
 
     Token max;
-    for(Token token = lexer.tryNext()
-      ; TokenType::ID == token.type()
-      ; token = lexer.tryNext())
+    Token token = lexer.tryNext();
+
+    while(TokenType::RBRACKET != token.type())
     {
+        if(TokenType::END == token.type())
+        {
+            THROW_GOBL("Expected a closing ']' after the '['");
+        }
+
         max = token;
 
         lexer.advance();
+
+        token = lexer.tryNext();
     }
 
-    if(TokenType::ID == max.type())
+    if(TokenType::END != max.type())
     {
         data.push_back(Token(TokenType::ID, value.begin(), max.end()));
     }
@@ -33,7 +41,7 @@ void Parser::parseValueAndBracket(Data& data, Lexer& lexer)
         data.push_back(value);
     }
 
-    lexer.expect(TokenType::RBRACKET);
+    lexer.advance();
 }
 
 bool Parser::parseDataPoint(Parser::DataPoint& dataPoint, Lexer& lexer)
@@ -79,6 +87,13 @@ Parser::DataPoints Parser::parseDataPoints(Lexer& lexer)
     }
 
     return results;
+}
+
+Sgf::Ptr Parser::parseGame(Lexer& lexer)
+{
+    Sgf::Ptr sgf_p(new Sgf());
+
+    return sgf_p;
 }
 
 } // Close gobls

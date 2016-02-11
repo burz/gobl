@@ -31,6 +31,10 @@ class Token
     const char* end() const;
 };
 
+// FREE OPERATORS
+std::ostream& operator<<(std::ostream& stream, const Token& token);
+
+// INLINES
 inline
 TokenType::Value Token::type() const
 {

@@ -82,7 +82,7 @@ Lexer::Lexer(const char* input)
     }                                                    \
     else                                                 \
     {                                                    \
-        Token result(gobls__type);                       \
+        Token result(gobls__type, d_input, d_input + 1); \
         ++d_input;                                       \
         return result;                                   \
     }
