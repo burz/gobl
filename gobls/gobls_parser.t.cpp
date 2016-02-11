@@ -236,4 +236,53 @@ TEST(Parser, handlesEscapedComments)
     EXPECT_EQ(input + 24, token.end());
 }
 
+TEST(Parser, parseGame)
+{
+    {
+        const char input[] = "";
+        Lexer lexer(input);
+        EXPECT_THROW(Parser::parseGame(lexer), goblu::Exception);
+    }
+    {
+        const char input[] = "(";
+        Lexer lexer(input);
+        EXPECT_THROW(Parser::parseGame(lexer), goblu::Exception);
+    }
+    {
+        const char input[] = "(;";
+        Lexer lexer(input);
+        EXPECT_THROW(Parser::parseGame(lexer), goblu::Exception);
+    }
+    {
+        const char input[] = "(;A[B]";
+        Lexer lexer(input);
+        EXPECT_THROW(Parser::parseGame(lexer), goblu::Exception);
+    }
+    {
+        const char input[] = "(;A[Hello]B[THERE])";
+        Lexer lexer(input);
+        Sgf::Ptr sgf_p;
+        EXPECT_NO_THROW(sgf_p = Parser::parseGame(lexer));
+
+        std::cout << *sgf_p << std::endl;
+
+        EXPECT_EQ("Hello", sgf_p->lookup("A"));
+        EXPECT_EQ("THERE", sgf_p->lookup("B"));
+    }
+    {
+        const char input[] = "(;\n"
+                             "  KM[6.7]\n"
+                             "; B[aa]\n"
+                             "; W[hb]\n"
+                             ")";
+        Lexer lexer(input);
+        Sgf::Ptr sgf_p;
+        EXPECT_NO_THROW(sgf_p = Parser::parseGame(lexer));
+
+        std::cout << *sgf_p << std::endl;
+
+        EXPECT_EQ("6.7", sgf_p->lookup("KM"));
+    }
+}
+
 } // Close gobls

@@ -6,6 +6,7 @@
 #include <goblb_board.h>
 #endif
 
+#include <iostream>
 #include <map>
 #include <memory>
 #include <vector>
@@ -42,7 +43,12 @@ class Sgf
 
     Iterator begin() const;
     Iterator end() const;
+
+    void print(std::ostream& stream) const;
 };
+
+// FREE OPERATORS
+std::ostream& operator<<(std::ostream& stream, const Sgf& sgf);
 
 // INLINES
 inline
