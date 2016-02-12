@@ -8,6 +8,7 @@ SRCDIRS = \
 . \
 goblb \
 gobld \
+gobll \
 goblr \
 gobls \
 goblu \
