@@ -7,6 +7,7 @@ GTEST_LD   = -pthread -L$(GTEST_DIR) -lgtest
 SRCDIRS = \
 . \
 goblb \
+gobld \
 goblr \
 gobls \
 goblu \
