@@ -12,34 +12,35 @@ SgfIterator::SgfIterator(const Strings& strings, bool files)
 : d_files(files)
 , d_iterator(strings.begin())
 , d_end(strings.end())
+, d_succeeded(0)
+, d_failed(0)
 {
 }
 
 bool SgfIterator::next()
 {
-    return d_end == d_iterator;
-}
+    d_next.reset();
 
-Sgf::Ptr SgfIterator::value()
-{
-    assert(d_end != d_iterator);
-
-    Sgf::Ptr result;
+    if(d_end == d_iterator)
+    {
+        return false;
+    }
 
     try
     {
-        Sgf::Ptr result;
-
         if(d_files)
         {
-            result = Parser::parseFile(*d_iterator);
+            d_next = Parser::parseFile(*d_iterator);
         }
         else
         {
-            result = Parser::parseString(*d_iterator);
+            d_next = Parser::parseString(*d_iterator);
         }
 
         ++d_succeeded;
+        ++d_iterator;
+
+        return true;
     }
     catch(const std::exception& exception)
     {
@@ -59,9 +60,10 @@ Sgf::Ptr SgfIterator::value()
                   << '"' << std::endl;
 
         ++d_failed;
-    }
+        ++d_iterator;
 
-    return result;
+        return next();
+    }
 }
 
 } // Close gobls

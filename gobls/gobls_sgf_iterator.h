@@ -23,6 +23,7 @@ class SgfIterator
 
     Strings::const_iterator       d_iterator;
     const Strings::const_iterator d_end;
+    Sgf::Ptr                      d_next;
     unsigned int                  d_succeeded;
     unsigned int                  d_failed;
 
@@ -33,15 +34,21 @@ class SgfIterator
   public:
     // MANIPULATORS
     bool next();
-    Sgf::Ptr value();
 
   public:
     // ACCESSORS
+    Sgf::Ptr value() const;
     unsigned int succeeded() const;
     unsigned int failed() const;
 };
 
 // INLINES
+inline
+Sgf::Ptr SgfIterator::value() const
+{
+    return d_next;
+}
+
 inline
 unsigned int SgfIterator::succeeded() const
 {
