@@ -31,8 +31,18 @@ class Parser
 
     static Sgf::Ptr parseGame(Lexer& lexer);
 
+    static Sgf::Ptr parseString(const std::string& str);
     static Sgf::Ptr parseFile(const std::string& fileName);
 };
+
+// INLINES
+inline
+Sgf::Ptr Parser::parseString(const std::string& str)
+{
+    Lexer lexer(str.c_str());
+
+    return parseGame(lexer);
+}
 
 } // Close gobls
 

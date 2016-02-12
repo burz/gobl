@@ -148,7 +148,7 @@ Sgf::Ptr Parser::parseGame(Lexer& lexer)
 
 Sgf::Ptr Parser::parseFile(const std::string& fileName)
 {
-    std::ifstream file(fileName);
+    std::ifstream file(fileName, std::ifstream::in);
     std::string str;
 
     file.seekg(0, std::ios::end);
