@@ -7,6 +7,7 @@
 #endif
 
 #include <string>
+#include <vector>
 
 namespace gobll {
 
@@ -19,7 +20,10 @@ class Model
   public:
     // MANIPULATORS
     virtual void train(gobld::GameIterator& gameIterator) = 0;
-    virtual void test(gobld::GameIterator& gameIterator) = 0;
+    virtual float test(gobld::GameIterator& gameIterator) = 0;
+
+    void train(const std::vector<std::string>& strings, bool files = false);
+    float test(const std::vector<std::string>& strings, bool files = false);
 
     virtual void readFromFile(const std::string& fileName) const = 0;
 
@@ -27,6 +31,23 @@ class Model
     // ACCESSORS
     virtual void writeToFile(const std::string& fileName) const = 0;
 };
+
+// INLINES
+inline
+void Model::train(const std::vector<std::string>& strings, bool files)
+{
+    gobld::GameIterator itt(strings, files);
+
+    train(itt);
+}
+
+inline
+float Model::test(const std::vector<std::string>& strings, bool files)
+{
+    gobld::GameIterator itt(strings, files);
+
+    return test(itt);
+}
 
 } // Close gobll
 
