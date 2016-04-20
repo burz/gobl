@@ -20,22 +20,25 @@ class Matrix
 
   private:
     // DATA
-    const unsigned int d_size;
-
     std::vector<std::vector<double> > d_matrix;
 
   public:
     // CREATORS
+    Matrix();
     Matrix(unsigned int size = goblb::Board::SIZE);
 
   public:
     // MANIPULATORS
     void set(unsigned int i, unsigned int j, double value);
 
+    void readFromFile(std::ifstream& fstream);
+
   public:
     // ACCESSORS
     unsigned int size() const;
     double get(unsigned int i, unsigned int j) const;
+
+    void writeToFile(std::ofstream& fstream) const;
 
     void print(std::ostream& stream) const;
 
@@ -52,14 +55,14 @@ std::ostream& operator<<(std::ostream& stream, const Matrix& matrix);
 inline
 unsigned int Matrix::size() const
 {
-    return d_size;
+    return d_matrix.size();
 }
 
 inline
 void Matrix::set(unsigned int i, unsigned int j, double value)
 {
-    assert(i < d_size);
-    assert(j < d_size);
+    assert(i < d_matrix.size());
+    assert(j < d_matrix.size());
 
     d_matrix[i][j] = value;
 }
@@ -67,8 +70,8 @@ void Matrix::set(unsigned int i, unsigned int j, double value)
 inline
 double Matrix::get(unsigned int i, unsigned int j) const
 {
-    assert(i < d_size);
-    assert(j < d_size);
+    assert(i < d_matrix.size());
+    assert(j < d_matrix.size());
 
     return d_matrix[i][j];
 }

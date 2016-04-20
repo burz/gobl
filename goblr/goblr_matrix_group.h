@@ -25,10 +25,14 @@ class MatrixGroup
     // MANIPULATORS
     void push(const Matrix::Ptr& matrix);
 
+    void readFromFile(std::ifstream& fstream);
+
   public:
     // ACCESSORS
     unsigned int size() const;
     const Matrix::Ptr& get(unsigned int i) const;
+
+    void writeToFile(std::ofstream& fstream) const;
 
     void print(std::ostream& stream) const;
 };
