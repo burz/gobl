@@ -24,7 +24,6 @@ class Matrix
 
   public:
     // CREATORS
-    Matrix();
     Matrix(unsigned int size = goblb::Board::SIZE);
 
   public:

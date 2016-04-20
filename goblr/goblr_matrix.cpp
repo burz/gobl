@@ -7,10 +7,6 @@
 
 namespace goblr {
 
-Matrix::Matrix()
-{
-}
-
 Matrix::Matrix(unsigned int size)
 : d_matrix(size, std::vector<double>(size, 0.0))
 {

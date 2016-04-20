@@ -3,7 +3,10 @@
 #include <goblr_matrix.h>
 
 #include <gtest/gtest.h>
+
+#include <chrono>
 #include <sstream>
+#include <fstream>
 
 namespace goblr {
 
@@ -96,6 +99,47 @@ TEST(Matrix, equals)
     matrix2.set(4, 3, 7.98);
     EXPECT_FALSE(matrix == matrix2);
     EXPECT_TRUE(matrix != matrix2);
+}
+
+TEST(Matrix, writeReadFromFile)
+{
+    std::time_t now = std::chrono::system_clock::to_time_t(
+        std::chrono::system_clock::now()
+    );
+    std::ostringstream sstream;
+    sstream << ".goblr.test.temp" << now;
+    const std::string tempFileName = sstream.str();
+
+    std::cout << "Using file: " << tempFileName << std::endl;
+
+    {
+        Matrix matrix;
+        for(unsigned int i = 0; i < goblb::Board::SIZE; ++i)
+        {
+            for(unsigned int j = 0; j < goblb::Board::SIZE; ++j)
+            {
+                matrix.set(i, j, i + j);
+            }
+        }
+
+        std::ofstream fstream(tempFileName, std::ofstream::binary);
+        matrix.writeToFile(fstream);
+
+    }
+    {
+        Matrix matrix;
+        std::ifstream fstream(tempFileName, std::ifstream::binary);
+        matrix.readFromFile(fstream);
+        for(unsigned int i = 0; i < goblb::Board::SIZE; ++i)
+        {
+            for(unsigned int j = 0; j < goblb::Board::SIZE; ++j)
+            {
+                EXPECT_EQ(matrix.get(i, j), i + j);
+            }
+        }
+    }
+
+    std::remove(tempFileName.c_str());
 }
 
 } // Close goblr

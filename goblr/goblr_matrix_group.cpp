@@ -13,11 +13,13 @@ void MatrixGroup::readFromFile(std::ifstream& fstream)
           reinterpret_cast<char*>(&size)
         , sizeof(unsigned int)
     );
-    d_group.resize(size);
+    d_group.reserve(size);
 
     for(unsigned int i = 0; i < size; ++i)
     {
-        d_group[i]->readFromFile(fstream);
+        d_group.emplace_back(new Matrix());
+
+        d_group.back()->readFromFile(fstream);
     }
 }
 
