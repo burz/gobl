@@ -25,7 +25,7 @@ namely
 *  liberties -- a group of matrices parameterized in the perspective
    (whose turn it is) and a level. Each number of liberties up to
    that level will have its own matrix, only the groups on the board
-   with a number of liberties of that size have a value of 1.0 in
+   with a number of liberties of that size will have a value of 1.0 in
    their respective locations in the matrix.
 *  ko -- a matrix that has a value of 1.0 only in a place where there
    is currently an active ko.
