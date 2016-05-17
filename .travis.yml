@@ -1,0 +1,26 @@
+os:
+  - linux
+
+language: cpp
+
+env:
+  - GTEST_DIR=.
+
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - g++-5
+      - libgtest-dev
+
+script:
+  - cd /usr/src/gtest
+  - sudo cmake .
+  - sudo make
+  - sudo mv libg* /usr/lib/
+  - make lib main gtest
+  - ./gobl_gtest.tsk
+  
+after_success:
+  - make clean
