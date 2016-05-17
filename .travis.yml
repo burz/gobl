@@ -19,6 +19,7 @@ script:
   - sudo cmake .
   - sudo make
   - sudo mv libg* /usr/lib/
+  - cd -
   - make lib main gtest
   - ./gobl_gtest.tsk
   
