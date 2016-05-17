@@ -1,6 +1,8 @@
 # gobl
 
-Go machine learning library
+Go machine learning library 
+
+[![Build Status](https://travis-ci.org/burz/gobl.svg?branch=master)](https://travis-ci.org/burz/gobl)
 
 -----------
 
